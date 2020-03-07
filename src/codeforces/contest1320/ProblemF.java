@@ -3,59 +3,34 @@ package codeforces.contest1320;
 import java.util.*;
 
 public class ProblemF {
-    private static int n;
-    private static int m;
-    private static int k;
+    private final int n;
+    private final int m;
+    private final int k;
 
-    private static int[][] bottom;
-    private static int[][] bottomBorder;
-    private static int[][] top;
-    private static int[][] topBorder;
-    private static int[][] left;
-    private static int[][] leftBorder;
-    private static int[][] right;
-    private static int[][] rightBorder;
-    private static int[][] front;
-    private static int[][] frontBorder;
-    private static int[][] back;
-    private static int[][] backBorder;
-    private static int[][][] field;
+    private final int[][] bottom;
+    private final int[][] bottomBorder;
+    private final int[][] top;
+    private final int[][] topBorder;
+    private final int[][] left;
+    private final int[][] leftBorder;
+    private final int[][] right;
+    private final int[][] rightBorder;
+    private final int[][] front;
+    private final int[][] frontBorder;
+    private final int[][] back;
+    private final int[][] backBorder;
+    private final int[][][] field;
 
-    private static void input() {
-        Scanner scanner = new Scanner(System.in);
-        n = scanner.nextInt();
-        m = scanner.nextInt();
-        k = scanner.nextInt();
-
-        bottom = new int[m][k];
-        top = new int[m][k];
-        left = new int[n][k];
-        right = new int[n][k];
-        front = new int[n][m];
-        back = new int[n][m];
-
-        read2dArray(scanner, bottom, m, k);
-        read2dArray(scanner, top, m, k);
-        read2dArray(scanner, left, n, k);
-        read2dArray(scanner, right, n, k);
-        read2dArray(scanner, front, n, m);
-        read2dArray(scanner, back, n, m);
-    }
-
-    private static void output() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                for (int l = 0; l < k; l++) {
-                    System.out.print(field[i][j][l] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
-            System.out.println();
-        }
-    }
-
-    private static void prepareArrays() {
+    public ProblemF(int n, int m, int k, int[][] bottom, int[][] top, int[][] left, int[][] right, int[][] front, int[][] back) {
+        this.n = n;
+        this.m = m;
+        this.k = k;
+        this.bottom = bottom;
+        this.top = top;
+        this.left = left;
+        this.right = right;
+        this.front = front;
+        this.back = back;
         bottomBorder = new int[m][k];
         deepFill(bottomBorder, 0);
         topBorder = new int[m][k];
@@ -68,29 +43,25 @@ public class ProblemF {
         deepFill(frontBorder, 0);
         backBorder = new int[n][m];
         deepFill(backBorder, k - 1);
-
         field = new int[n][m][k];
         deepFill(field, -1);
+
     }
 
-    public static void main(String[] args) {
-        input();
-        prepareArrays();
-
+    public int[][][] solve() {
         if (!processZerosForRightLeft() || !processZerosForFrontBack() || !processZerosForBottomAndTop()) {
-            System.out.println(-1);
-            return;
+            return null;
         }
         if (!shiftBorders()) {
-            System.out.println(-1);
-            return;
+            return null;
         }
 
         LinkedList<Triple> coords = new LinkedList<>();
-        int c = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
+                if (front[i][j] == 0) continue;
                 for (int l = 0; l < k; l++) {
+                    if (bottom[j][l] == 0 || left[i][l] == 0) continue;
                     coords.add(new Triple(i, j, l));
                 }
             }
@@ -111,17 +82,53 @@ public class ProblemF {
                     deletedLastIter++;
                 }
                 if (code == 2) {
-                    System.out.println(-1);
-                    return;
+                    return null;
                 }
             }
         }
-
         prepareToOutput();
-        output();
+        return field;
     }
 
-    private static void prepareToOutput() {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        int k = scanner.nextInt();
+
+        int[][] bottom = new int[m][k];
+        int[][] top = new int[m][k];
+        int[][] left = new int[n][k];
+        int[][] right = new int[n][k];
+        int[][] front = new int[n][m];
+        int[][] back = new int[n][m];
+
+        read2dArray(scanner, bottom, m, k);
+        read2dArray(scanner, top, m, k);
+        read2dArray(scanner, left, n, k);
+        read2dArray(scanner, right, n, k);
+        read2dArray(scanner, front, n, m);
+        read2dArray(scanner, back, n, m);
+
+        ProblemF problemF = new ProblemF(n, m, k, bottom, top, left, right, front, back);
+        int[][][] result = problemF.solve();
+        if (result != null) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    for (int l = 0; l < k; l++) {
+                        System.out.print(result[i][j][l] + " ");
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println();
+            }
+        } else {
+            System.out.println(-1);
+        }
+    }
+
+    private void prepareToOutput() {
         deepFill(field, 0);
         for (int j = 0; j < m; j++) {
             for (int l = 0; l < k; l++) {
@@ -144,7 +151,7 @@ public class ProblemF {
     }
 
     //0-nothing, 1 - deleted, 2 - conflict
-    private static int process(int i, int j, int l) {
+    private int process(int i, int j, int l) {
         if (field[i][j][l] == -1) {
             //проверка видимости
             int prevColour = -1;
@@ -188,74 +195,32 @@ public class ProblemF {
             if (conflict) {
                 field[i][j][l] = 0;
                 if (bottomBorder[j][l] == i) {
-                    int t = bottomBorder[j][l] + 1;
-                    while (t < n) {
-                        if (field[t][j][l] == -1) break;
-                        t++;
-                    }
-                    if (t < n) {
-                        bottomBorder[j][l] = t;
-                    } else {
+                    if (!shiftBottom(j, l)) {
                         return 2;
                     }
                 }
                 if (top[j][l] == i) {
-                    int t = top[j][l] - 1;
-                    while (t > 0) {
-                        if (field[t][j][l] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        bottomBorder[j][l] = t;
-                    } else {
+                    if (!shiftTop(j, l)) {
                         return 2;
                     }
                 }
                 if (leftBorder[i][l] == j) {
-                    int t = leftBorder[i][l] + 1;
-                    while (t < n) {
-                        if (field[i][t][l] == -1) break;
-                        t++;
-                    }
-                    if (t < m) {
-                        leftBorder[i][l] = t;
-                    } else {
+                    if (!shiftLeft(i, l)) {
                         return 2;
                     }
                 }
                 if (rightBorder[i][l] == j) {
-                    int t = rightBorder[i][l] - 1;
-                    while (t >= 0) {
-                        if (field[i][t][l] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        rightBorder[i][l] = t;
-                    } else {
+                    if (!shiftRight(i, l)) {
                         return 2;
                     }
                 }
                 if (frontBorder[i][j] == l) {
-                    int t = frontBorder[i][j] + 1;
-                    while (t < k) {
-                        if (field[i][j][t] == -1) break;
-                        t++;
-                    }
-                    if (t < k) {
-                        frontBorder[i][j] = t;
-                    } else {
+                    if (!shiftFront(i, j)) {
                         return 2;
                     }
                 }
                 if (backBorder[i][j] == l) {
-                    int t = backBorder[i][j] - 1;
-                    while (t >= 0) {
-                        if (field[i][j][t] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        backBorder[i][j] = t;
-                    } else {
+                    if (!shiftBack(i, j)) {
                         return 2;
                     }
                 }
@@ -267,7 +232,7 @@ public class ProblemF {
         }
     }
 
-    private static boolean processZerosForBottomAndTop() {
+    private boolean processZerosForBottomAndTop() {
         for (int j = 0; j < m; j++) {
             for (int l = 0; l < k; l++) {
                 if (bottom[j][l] == 0 || top[j][l] == 0) {
@@ -282,7 +247,7 @@ public class ProblemF {
         return true;
     }
 
-    private static boolean processZerosForRightLeft() {
+    private boolean processZerosForRightLeft() {
         for (int i = 0; i < n; i++) {
             for (int l = 0; l < k; l++) {
                 if (left[i][l] == 0 || right[i][l] == 0) {
@@ -297,7 +262,7 @@ public class ProblemF {
         return true;
     }
 
-    private static boolean processZerosForFrontBack() {
+    private boolean processZerosForFrontBack() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (front[i][j] == 0 || back[i][j] == 0) {
@@ -312,94 +277,128 @@ public class ProblemF {
         return true;
     }
 
-    private static boolean shiftBorders() {
-        for (int j = 0; j < m; j++) {
-            for (int l = 0; l < k; l++) {
-                if (field[0][j][l] == 0 && bottom[j][l] != 0) {
-                    int t = bottomBorder[j][l] + 1;
-                    while (t < n) {
-                        if (field[t][j][l] == -1) break;
-                        t++;
-                    }
-                    if (t < n) {
-                        bottomBorder[j][l] = t;
-                    } else {
-                        return false;
-                    }
-                }
-                if (field[n - 1][j][l] == 0 && top[j][l] != 0) {
-                    int t = topBorder[j][l] - 1;
-                    while (t > 0) {
-                        if (field[t][j][l] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        topBorder[j][l] = t;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int l = 0; l < k; l++) {
-                if (field[i][0][l] == 0 && left[i][l] != 0) {
-                    int t = leftBorder[i][l] + 1;
-                    while (t < n) {
-                        if (field[i][t][l] == -1) break;
-                        t++;
-                    }
-                    if (t < m) {
-                        leftBorder[i][l] = t;
-                    } else {
-                        return false;
-                    }
-                }
-                if (field[i][m - 1][l] == 0 && right[i][l] != 0) {
-                    int t = rightBorder[i][l] - 1;
-                    while (t >= 0) {
-                        if (field[i][t][l] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        rightBorder[i][l] = t;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (field[i][j][0] == 0 && front[i][j] != 0) {
-                    int t = frontBorder[i][j] + 1;
-                    while (t < k) {
-                        if (field[i][j][t] == -1) break;
-                        t++;
-                    }
-                    if (t < k) {
-                        frontBorder[i][j] = t;
-                    } else {
-                        return false;
-                    }
-                }
-                if (field[i][j][k - 1] == 0 && back[i][j] != 0) {
-                    int t = backBorder[i][j] - 1;
-                    while (t >= 0) {
-                        if (field[i][j][t] == -1) break;
-                        t--;
-                    }
-                    if (t >= 0) {
-                        backBorder[i][j] = t;
-                    } else {
-                        return false;
-                    }
-                }
+    private boolean shiftBottom(int j, int l) {
+        if (bottom[j][l] == 0) return true;
+        while (field[bottomBorder[j][l]][j][l] != -1) {
+            bottomBorder[j][l]++;
+            if (bottomBorder[j][l] >= n) {
+                return false;
             }
         }
         return true;
+    }
+
+    private boolean shiftTop(int j, int l) {
+        if (top[j][l] == 0) return true;
+        while (field[topBorder[j][l]][j][l] != -1) {
+            topBorder[j][l]--;
+            if (topBorder[j][l] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftLeft(int i, int l) {
+        if (left[i][l] == 0) return true;
+        while (field[i][leftBorder[i][l]][l] != -1) {
+            leftBorder[i][l]++;
+            if (leftBorder[i][l] >= m) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftRight(int i, int l) {
+        if (right[i][l] == 0) return true;
+        while (field[i][rightBorder[i][l]][l] != -1) {
+            rightBorder[i][l]--;
+            if (rightBorder[i][l] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftFront(int i, int j) {
+        if (front[i][j] == 0) return true;
+        while (field[i][j][frontBorder[i][j]] != -1) {
+            frontBorder[i][j]++;
+            if (frontBorder[i][j] >= k) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftBack(int i, int j) {
+        if (back[i][j] == 0) return true;
+        while (field[i][j][backBorder[i][j]] != -1) {
+            backBorder[i][j]--;
+            if (backBorder[i][j] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftTop() {
+        for (int j = 0; j < m; j++) {
+            for (int l = 0; l < k; l++) {
+                if (!shiftTop(j, l)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftBottom() {
+        for (int j = 0; j < m; j++) {
+            for (int l = 0; l < k; l++) {
+                if (!shiftBottom(j, l)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftLeft() {
+        for (int i = 0; i < n; i++) {
+            for (int l = 0; l < k; l++) {
+                if (!shiftLeft(i, l)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftRight() {
+        for (int i = 0; i < n; i++) {
+            for (int l = 0; l < k; l++) {
+                if (!shiftRight(i, l)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftFront() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!shiftFront(i, j)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftBack() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!shiftBack(i, j)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shiftBorders() {
+        return shiftBottom() && shiftBack() && shiftFront() && shiftLeft() && shiftRight() && shiftTop();
     }
 
     private static void read1dArray(Scanner scanner, int[] a, int n) {
