@@ -69,7 +69,7 @@ public class SegmentTree<V, T> {
             if (pos < mid) {
                 update(v * 2 + 1, l, mid, pos, value);
             } else {
-                update(v * 2 + 2, mid + 1, r, pos, value);
+                update(v * 2 + 2, mid, r, pos, value);
             }
             t[v] = bf.apply(t[v * 2 + 1], t[v * 2 + 2]);
         }
