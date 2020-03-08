@@ -1,5 +1,6 @@
 package basic;
 
+import basic.matrix.MatrixTools;
 import basic.tuples.Pair;
 
 import java.util.ArrayList;
@@ -114,23 +115,45 @@ public class IntegerUtils {
 
     public static int powMod(int a, int b, int m) {
         long res = 1;
-        long tmp = a;
         while (b != 0)
             if ((b & 1) != 0) {
                 res = (res * a) % m;
                 --b;
             } else {
-                tmp = (tmp * tmp) % m;
+                a = (a * a) % m;
                 b >>= 1;
             }
         return (int) res;
     }
 
     //x(0)=a, x(1)=b, x(n) = c*x(n-1)+d*x(n-2)
-//    public static BigInteger recurrentSequence(int a, int b, int c, int d, int n){{
-//        long t = (long) c * c +d;
-//        if(t>0){
-//
-//        }
-//    }
+    public static long recurrentSequence(int a, int b, int c, int d, int n) {
+        if (n == 0) return a;
+        if (n == 1) return b;
+        long[][] matrix = {{c, 1}, {d, 0}};
+        long[][] matrixPower = MatrixTools.matrixPower(matrix, n - 1);
+        return b * matrixPower[0][0] + a * matrixPower[1][0];
+    }
+
+    // x[N] = sum_{i=0}^{k-1} x[N-k+i]*b[i]
+    // x[i] = a[i], for i=0..k-1
+    public static long recurrentSequence(int a[], int b[], int n) {
+        int k = a.length;
+        if (n < k) {
+            return a[n];
+        }
+        long[][] matrix = new long[k][k];
+        for (int i = 0; i < k; i++) {
+            matrix[i][0] = b[i];
+        }
+        for (int i = 0; i < k - 1; i++) {
+            matrix[i][i + 1] = 1;
+        }
+        long[][] matrixPower = MatrixTools.matrixPower(matrix, n - k + 1);
+        long ans = 0;
+        for (int i = 0; i < k; i++) {
+            ans += a[k - 1 - i] * matrixPower[i][0];
+        }
+        return ans;
+    }
 }
