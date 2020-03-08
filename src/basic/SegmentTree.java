@@ -26,7 +26,7 @@ public class SegmentTree<V, T> {
         for (int i = 0; i < values.length; i++) {
             a[i] = values[i];
         }
-        for (int i = values.length + 1; i < n; i++) {
+        for (int i = values.length; i < n; i++) {
             a[i] = neutralElement;
         }
         t = clazz.cast(Array.newInstance(clazz.getComponentType(), n * 2 - 1));
@@ -43,7 +43,7 @@ public class SegmentTree<V, T> {
     }
 
     private T query(int v, int l, int r, int ql, int qr) {
-        if (l > qr || r < ql) {
+        if (l >= qr || r <= ql) {
             return neutralValue;
         }
         if (ql <= l && r <= qr) {
@@ -52,7 +52,7 @@ public class SegmentTree<V, T> {
         int mid = (l + r) / 2;
         return bf.apply(
                 query(v * 2 + 1, l, mid, ql, qr),
-                query(v * 2 + 2, mid + 1, r, ql, qr)
+                query(v * 2 + 2, mid, r, ql, qr)
         );
     }
 
