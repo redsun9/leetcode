@@ -67,6 +67,7 @@ public class Solution {
             for (String afterString : dp[n]) {
                 subResult[n - afterString.length()].add(afterString);
             }
+            dp[n] = null;
             for (int i = n - 1; i > 0; i--) {
                 if (prevOk[i]) {
                     List<String> afterStrings = subResult[i];
@@ -78,6 +79,8 @@ public class Solution {
                         }
                     }
                 }
+                subResult[i] = null;
+                dp[i] = null;
             }
         } else {
             return Collections.emptyList();
