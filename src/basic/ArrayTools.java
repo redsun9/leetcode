@@ -1,9 +1,31 @@
 package basic;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class ArrayTools {
+    private static int sumWithLeastNumberOfElements(int[] a, int k) {
+        int s = 0;
+        Queue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < a.length; i++) {
+            int cur = a[i];
+            if (cur >= k) return 1;
+            if (cur > 0) {
+                while (!queue.isEmpty() && s > queue.peek() && s + cur - queue.peek() >= k) {
+                    s -= queue.poll();
+                }
+                if (s < k) {
+                    queue.offer(cur);
+                    s += cur;
+                }
+            }
+        }
+        if (s < k) return -1;
+        return queue.size();
+    }
+
     private static void read1dArray(Scanner scanner, int[] a, int n) {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
