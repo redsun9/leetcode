@@ -3,53 +3,54 @@ package leetcode.leetcode9xx.leetcode987;
 import java.util.*;
 
 public class Solution {
+    private static final int MASK_X = ((1 << 11) - 1) << 20;
+    private static final int MASK_Y = ((1 << 10) - 1) << 10;
+    private static final int MASK_VAL = (1 << 10) - 1;
+
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        Stack<Node> stack = new Stack<>();
-        Node rootNode = new Node(0, 1000, root);
-        ArrayList<Node> list = new ArrayList<>(1000);
-        stack.add(rootNode);
+        Stack<TreeNode> stack = new Stack<>();
+        ArrayList<TreeNode> list = new ArrayList<>(1000);
+        root.val = f(1000, 0, root.val);
+        stack.push(root);
+
         while (!stack.isEmpty()) {
-            Node node = stack.pop();
+            TreeNode node = stack.pop();
             list.add(node);
-            if (node.node.left != null) {
-                Node leftNode = new Node(node.x - 1, node.y - 1, node.node.left);
-                stack.push(leftNode);
+            int x = (node.val & MASK_X) >> 20;
+            int y = (node.val & MASK_Y) >> 10;
+            TreeNode left = node.left;
+            if (left != null) {
+                left.val = f(x - 1, y + 1, left.val);
+                stack.push(left);
             }
-            if (node.node.right != null) {
-                Node rightNode = new Node(node.x + 1, node.y - 1, node.node.right);
-                stack.push(rightNode);
+            TreeNode right = node.right;
+            if (right != null) {
+                right.val = f(x + 1, y + 1, right.val);
+                stack.push(right);
             }
         }
-        list.sort(comparator);
+        list.sort(Comparator.comparingInt(x -> x.val));
+
         List<List<Integer>> ans = new LinkedList<>();
-        int previousX = list.get(0).x;
-        List<Integer> current = new LinkedList<>();
-        for (Node node : list) {
-            if (node.x == previousX) current.add(node.node.val);
-            else {
-                ans.add(current);
-                current = new LinkedList<>();
-                current.add(node.node.val);
-                previousX = node.x;
+        int prevX = list.get(0).val & MASK_X;
+        LinkedList<Integer> sublist = new LinkedList<>();
+        for (TreeNode node : list) {
+            int curX = node.val & MASK_X;
+            int val = node.val & MASK_VAL;
+            if (curX == prevX) {
+                sublist.add(val);
+            } else {
+                ans.add(sublist);
+                sublist = new LinkedList<>();
+                sublist.add(val);
+                prevX = curX;
             }
         }
-        ans.add(current);
+        ans.add(sublist);
         return ans;
     }
 
-    private static class Node {
-        final int x, y;
-        final TreeNode node;
-
-        public Node(int x, int y, TreeNode node) {
-            this.x = x;
-            this.y = y;
-            this.node = node;
-        }
-
+    private static int f(int x, int y, int val) {
+        return x << 20 | y << 10 | val;
     }
-
-    private static Comparator<Node> comparator = Comparator.comparingInt(
-            a -> (a.x + 1000) << 20 | (1000 - a.y) << 10 | a.node.val
-    );
 }
