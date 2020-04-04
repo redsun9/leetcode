@@ -48,6 +48,7 @@ public class IntegerUtils {
         for (int i = 0; i < firstPrimes.length; i++) {
             int prime = firstPrimes[i];
             if (x % prime == 0) {
+                x /= prime;
                 int c = 1;
                 while (x % prime == 0) {
                     x /= prime;
