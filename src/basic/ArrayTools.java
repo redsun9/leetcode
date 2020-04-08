@@ -201,4 +201,14 @@ public class ArrayTools {
                 obj instanceof long[] || obj instanceof float[] ||
                 obj instanceof double[];
     }
+
+    public static void shuffle(int[] a) {
+        Random random = new Random();
+        for (int i = a.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            int t = a[j];
+            a[j] = a[i];
+            a[i] = t;
+        }
+    }
 }
