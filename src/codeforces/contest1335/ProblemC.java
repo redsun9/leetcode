@@ -20,14 +20,14 @@ public class ProblemC {
                 continue;
             }
             HashMap<Integer, Integer> countMap = new HashMap<>();
-            int lasrgestSize = 0;
+            int largest = 0;
             for (int ai : a) {
                 int count = countMap.getOrDefault(ai, 0) + 1;
-                lasrgestSize = max(lasrgestSize, count);
+                largest = max(largest, count);
                 countMap.put(ai, count);
             }
             int groups = countMap.size();
-            System.out.println(max(min(lasrgestSize, groups - 1), min(lasrgestSize - 1, groups)));
+            System.out.println(max(min(largest, groups - 1), min(largest - 1, groups)));
         }
     }
 }
