@@ -28,4 +28,12 @@ public class LeetcodeUtils {
         }
         return rootNode;
     }
+
+    public static ListNode initializeList(int[] values) {
+        ListNode node = null;
+        for (int i = values.length - 1; i >= 0; i--) {
+            node = new ListNode(values[i], node);
+        }
+        return node;
+    }
 }
