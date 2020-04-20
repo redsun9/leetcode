@@ -6,6 +6,7 @@ import java.util.Queue;
 @SuppressWarnings("ConstantConditions")
 public class LeetcodeUtils {
     public static TreeNode initializeTree(Integer[] values) {
+        if (values.length == 0) return null;
         TreeNode rootNode = new TreeNode(values[0]);
         Queue<TreeNode> queue = new ArrayDeque<>();
         queue.add(rootNode);
@@ -19,7 +20,7 @@ public class LeetcodeUtils {
                 queue.add(leftNode);
             }
             i++;
-            if (values[i] != null) {
+            if (i < n && values[i] != null) {
                 TreeNode rightNode = new TreeNode(values[i]);
                 node.right = rightNode;
                 queue.add(rightNode);
