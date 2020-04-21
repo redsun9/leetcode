@@ -4,23 +4,18 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Solution {
+public class Solution2 {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         Arrays.sort(candidates);
         int n = candidates.length;
-        int[] gcd = new int[n];
-        gcd[n - 1] = candidates[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
-            gcd[i] = gcd(candidates[i], gcd[i + 1]);
-        }
         LinkedList<List<Integer>> ans = new LinkedList<>();
         int[] tmp = new int[n];
-        combinationSum(candidates, target, 0, n, tmp, gcd, ans);
+        combinationSum(candidates, target, 0, n, tmp, ans);
         return ans;
     }
 
-    private static void combinationSum(int[] candidates, int target, int index, int n, int[] tmp, int[] gcd, List<List<Integer>> ans) {
-        if (candidates[index] > target || target % gcd[index] != 0) return;
+    private static void combinationSum(int[] candidates, int target, int index, int n, int[] tmp, List<List<Integer>> ans) {
+        if (candidates[index] > target) return;
         if (index == n - 1) {
             if (target % candidates[index] == 0) {
                 tmp[index] = target / candidates[index];
@@ -35,7 +30,7 @@ public class Solution {
             }
             for (int i = 0; i <= max; i++) {
                 tmp[index] = i;
-                combinationSum(candidates, target - i * candidates[index], index + 1, n, tmp, gcd, ans);
+                combinationSum(candidates, target - i * candidates[index], index + 1, n, tmp, ans);
             }
         }
     }
@@ -48,15 +43,5 @@ public class Solution {
             }
         }
         ans.add(subAns);
-    }
-
-    private static int gcd(int a, int b) {
-        int c;
-        while (b != 0) {
-            c = a % b;
-            a = b;
-            b = c;
-        }
-        return a;
     }
 }
