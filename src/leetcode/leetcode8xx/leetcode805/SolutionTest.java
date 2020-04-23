@@ -29,6 +29,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void perfTest() {
         Solution solution = new Solution();
         Random random = new Random(0);

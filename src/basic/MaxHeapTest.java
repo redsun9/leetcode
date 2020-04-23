@@ -56,6 +56,7 @@ class MaxHeapTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfCreatingWithArray() {
         int[] a = new int[bigN];
         for (int i = 0; i < bigN; i++) {
@@ -70,6 +71,7 @@ class MaxHeapTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfPollFromRebalancing() {
         int[] a = new int[bigN];
         for (int i = 0; i < bigN; i++) {
@@ -86,6 +88,7 @@ class MaxHeapTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfPollFromUnbalancing() {
         int[] a = new int[bigN];
         for (int i = 0; i < bigN; i++) {

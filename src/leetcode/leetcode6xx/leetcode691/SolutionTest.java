@@ -44,6 +44,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testRandom() {
         final Solution solution = new Solution();
         final int numberOfTests = 1000;

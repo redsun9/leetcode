@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CodecTest {
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testSerialize() {
         Codec codec = new Codec();
         IntStream.range(0, 10000).parallel().forEach(x -> {

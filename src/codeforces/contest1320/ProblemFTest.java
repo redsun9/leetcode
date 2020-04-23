@@ -54,6 +54,7 @@ class ProblemFTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testMassive() {
         Random random = new Random();
         IntStream.range(0, 100).parallel().forEach(test -> {

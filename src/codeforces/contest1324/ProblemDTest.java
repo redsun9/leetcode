@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ProblemDTest {
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void solution() {
         IntStream.range(0, 10).parallel().forEach(__ -> {
             Random random = new Random();

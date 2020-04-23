@@ -33,6 +33,7 @@ class SolutionTest {
 
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerf() {
         Random random = new Random(0);
         int n = 20;

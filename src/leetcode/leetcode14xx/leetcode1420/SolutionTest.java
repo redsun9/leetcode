@@ -25,12 +25,14 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void test4() {
         Solution solution = new Solution();
         assertEquals(34549172, solution.numOfArrays(50, 100, 25));
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void test5() {
         Solution solution = new Solution();
         assertEquals(418930126, solution.numOfArrays(37, 17, 7));
