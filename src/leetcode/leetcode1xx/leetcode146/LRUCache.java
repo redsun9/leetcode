@@ -21,12 +21,8 @@ public class LRUCache {
         DoubleLinkedList node = map.get(key);
         if (node == null) return -1;
         else {
-            node.left.right = node.right;
-            node.right.left = node.left;
-            node.left = rightBorder.left;
-            node.right = rightBorder;
-            rightBorder.left.right = node;
-            rightBorder.left = node;
+            removeFromCurrent(node);
+            insertToEnd(node);
             return node.val;
         }
     }
@@ -34,25 +30,31 @@ public class LRUCache {
     public void put(int key, int value) {
         DoubleLinkedList node = map.get(key);
         if (node != null) {
-            node.left.right = node.right;
-            node.right.left = node.left;
-            node.left = rightBorder.left;
-            node.right = rightBorder;
-            rightBorder.left.right = node;
-            rightBorder.left = node;
+            removeFromCurrent(node);
+            insertToEnd(node);
             node.val = value;
         } else {
-            DoubleLinkedList newNode = new DoubleLinkedList(key, value, rightBorder.left, rightBorder);
-            rightBorder.left.right = newNode;
-            rightBorder.left = newNode;
-            map.put(key, newNode);
+            node = new DoubleLinkedList(key, value);
+            insertToEnd(node);
+            map.put(key, node);
             if (map.size() > maxSize) {
                 DoubleLinkedList toDelete = leftBorder.right;
                 map.remove(toDelete.key);
-                leftBorder.right = toDelete.right;
-                toDelete.right.left = leftBorder;
+                removeFromCurrent(toDelete);
             }
         }
+    }
+
+    private void removeFromCurrent(DoubleLinkedList node) {
+        node.left.right = node.right;
+        node.right.left = node.left;
+    }
+
+    private void insertToEnd(DoubleLinkedList node) {
+        node.left = rightBorder.left;
+        node.right = rightBorder;
+        rightBorder.left.right = node;
+        rightBorder.left = node;
     }
 
     private static class DoubleLinkedList {
@@ -61,11 +63,9 @@ public class LRUCache {
         DoubleLinkedList left;
         DoubleLinkedList right;
 
-        public DoubleLinkedList(int key, int val, DoubleLinkedList left, DoubleLinkedList right) {
+        public DoubleLinkedList(int key, int val) {
             this.key = key;
             this.val = val;
-            this.left = left;
-            this.right = right;
         }
 
         public DoubleLinkedList() {
