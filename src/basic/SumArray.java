@@ -71,4 +71,65 @@ public class SumArray {
                     + a[startI][startJ][endK] + a[startI][endJ][startK] + a[endI][startJ][startK] - a[startI][startJ][startK];
         }
     }
+
+    public static class SumArray4d {
+        private final int[][][][] s;
+
+        public SumArray4d(int[][][][] t) {
+            int A = t.length;
+            int B = t[0].length;
+            int C = t[0][0].length;
+            int D = t[0][0][0].length;
+            s = new int[A + 1][B + 1][C + 1][D + 1];
+            for (int a = 0; a < A; a++) {
+                for (int b = 0; b < B; b++) {
+                    for (int c = 0; c < C; c++) {
+                        for (int d = 0; d < D; d++) {
+                            s[a + 1][b + 1][c + 1][d + 1] = t[a][b][c][d]
+                                    + s[a][b + 1][c + 1][d + 1]
+                                    + s[a + 1][b][c + 1][d + 1]
+                                    + s[a + 1][b + 1][c][d + 1]
+                                    + s[a + 1][b + 1][c + 1][d]
+
+                                    - s[a][b][c + 1][d + 1]
+                                    - s[a][b + 1][c][d + 1]
+                                    - s[a][b + 1][c + 1][d]
+                                    - s[a + 1][b][c][d + 1]
+                                    - s[a + 1][b][c + 1][d]
+                                    - s[a + 1][b + 1][c][d]
+
+                                    + s[a + 1][b][c][d]
+                                    + s[a][b + 1][c][d]
+                                    + s[a][b][c + 1][d]
+                                    + s[a][b][c][d + 1]
+
+                                    - s[a][b][c][d];
+                        }
+                    }
+                }
+            }
+        }
+
+        public int sumSegment(int startI, int endI, int startJ, int endJ, int startK, int endK, int startL, int endL) {
+            return s[endI][endJ][endK][endL]
+                    - s[startI][endJ][endK][endL]
+                    - s[endI][startJ][endK][endL]
+                    - s[endI][endJ][startK][endL]
+                    - s[endI][endJ][endK][startL]
+
+                    + s[startI][startJ][endK][endL]
+                    + s[startI][endJ][startK][endL]
+                    + s[startI][endJ][endK][startL]
+                    + s[endI][startJ][startK][endL]
+                    + s[endI][startJ][endK][startL]
+                    + s[endI][endJ][startK][startL]
+
+                    - s[endI][startJ][startK][startL]
+                    - s[startI][endJ][startK][startL]
+                    - s[startI][startJ][endK][startL]
+                    - s[startI][startJ][startK][endL]
+
+                    + s[startI][startJ][startK][startL];
+        }
+    }
 }
