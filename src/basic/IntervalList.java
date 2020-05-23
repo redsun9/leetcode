@@ -2,13 +2,28 @@ package basic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class IntervalList {
     private final int[][] a;
 
-    public IntervalList(int[][] a) {
-        this.a = a;
+    public IntervalList(int[][] a, boolean alreadySorted) {
+        int n = a.length;
+        if (alreadySorted || n <= 1) {
+            this.a = a;
+            return;
+        }
+        Arrays.sort(a, Comparator.comparingInt(x -> x[0]));
+        ArrayList<int[]> ans = new ArrayList<>(n);
+        int i = 0;
+        while (i < n) {
+            int min = a[i][0];
+            int max = a[i++][1];
+            while (i < n && a[i][0] <= max) max = Math.max(max, a[i++][1]);
+            ans.add(new int[]{min, max});
+        }
+        this.a = ans.toArray(new int[ans.size()][2]);
     }
 
     public IntervalList union(IntervalList other) {
@@ -40,14 +55,14 @@ public class IntervalList {
             }
             ans.add(new int[]{curMin, curMax});
         }
-        return new IntervalList(ans.toArray(new int[ans.size()][2]));
+        return new IntervalList(ans.toArray(new int[ans.size()][2]), true);
     }
 
     public IntervalList intersect(IntervalList other) {
         int[][] b = other.a;
         int m = this.a.length;
         int n = b.length;
-        if (m == 0 || n == 0) return new IntervalList(new int[0][2]);
+        if (m == 0 || n == 0) return new IntervalList(new int[0][2], true);
         int i = 0, j = 0;
         List<int[]> ans = new ArrayList<>(Math.max(m, n) + 1);
         while (i < m && j < n) {
@@ -63,7 +78,7 @@ public class IntervalList {
             else i++;
         }
 
-        return new IntervalList(ans.toArray(new int[ans.size()][2]));
+        return new IntervalList(ans.toArray(new int[ans.size()][2]), true);
     }
 
     @Override
