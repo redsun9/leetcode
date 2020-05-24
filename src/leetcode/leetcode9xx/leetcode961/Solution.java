@@ -1,5 +1,6 @@
 package leetcode.leetcode9xx.leetcode961;
 
+//deterministic
 public class Solution {
     public int repeatedNTimes(int[] a) {
         int n = a.length;
