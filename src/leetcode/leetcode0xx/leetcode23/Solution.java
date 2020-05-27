@@ -21,10 +21,13 @@ public class Solution {
         while (!queue.isEmpty()) {
             ListNode next = queue.poll();
             tmp.next = next;
+            tmp = tmp.next;
             if (next.next != null) {
                 queue.offer(next.next);
+            } else if (queue.size() == 1) {
+                tmp.next = queue.poll();
+                return result;
             }
-            tmp = tmp.next;
         }
         return result;
     }
