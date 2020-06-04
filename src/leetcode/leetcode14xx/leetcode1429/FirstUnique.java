@@ -1,4 +1,4 @@
-package leetcode.challenge_2020.april28th;
+package leetcode.leetcode14xx.leetcode1429;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;

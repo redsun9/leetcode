@@ -1,4 +1,4 @@
-package leetcode.challenge_2020.april30th;
+package leetcode.leetcode14xx.leetcode1430;
 
 import leetcode.tools.TreeNode;
 

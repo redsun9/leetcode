@@ -1,4 +1,4 @@
-package leetcode.challenge_2020.april14th;
+package leetcode.leetcode14xx.leetcode1427;
 
 public class Solution {
     public String stringShift(String s, int[][] shifts) {

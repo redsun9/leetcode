@@ -1,4 +1,4 @@
-package leetcode.challenge_2020.april21st;
+package leetcode.leetcode14xx.leetcode1428;
 
 import java.util.List;
 
