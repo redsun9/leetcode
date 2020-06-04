@@ -202,6 +202,22 @@ public class ArrayTools {
                 obj instanceof double[];
     }
 
+    //longest strictly increasing subsequence
+    public static <V> int lis(V[] arr, Comparator<V> cmp) {
+        int ans = 0;
+        for (V v : arr) {
+            int lo = 0, hi = ans;
+            while (lo != hi) {
+                int mid = lo + (hi - lo) / 2;
+                if (cmp.compare(arr[mid], v) < 0) lo = mid + 1;
+                else hi = mid;
+            }
+            arr[lo] = v;
+            if (lo == ans) ans++;
+        }
+        return ans;
+    }
+
     public static void shuffle(int[] a) {
         Random random = new Random();
         for (int i = a.length - 1; i > 0; i--) {
