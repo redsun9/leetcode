@@ -3,7 +3,11 @@ package suggestions.similar_path;
 import basic.ArrayTools;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SolutionTest {
 
@@ -65,6 +69,51 @@ class SolutionTest {
         int[] target = {1, 4, 3, 2, 0, 5, 6};
         int[] actual = new Solution().similarPath(7, edges, target);
         assertEquals(distance(target, new int[]{3, 4, 3, 4, 3, 5, 6}), distance(target, actual));
+    }
+
+    @Test
+    void perfTest() {
+        Random random = new Random(0);
+        int nTests = 1_000;
+        int nVertices = 1_000;
+        int nEdges = 10_000;
+        int nTarget = 100;
+        double pExist = 0.9;
+
+        int[][][] edges = new int[nTests][nEdges][2];
+        for (int t = 0; t < nTests; t++) {
+            for (int i = 0; i < nEdges; ) {
+                int u = random.nextInt(nVertices);
+                int v = random.nextInt(nVertices);
+                if (u != v) {
+                    edges[t][i][0] = u;
+                    edges[t][i][1] = v;
+                    i++;
+                }
+            }
+        }
+        int[][] target = new int[nTests][nTarget];
+        for (int t = 0; t < nTests; t++) {
+            int prevTarget = -1;
+            for (int i = 0; i < nTarget; ) {
+                if (random.nextDouble() < pExist) {
+                    int u = random.nextInt(nVertices);
+                    if (prevTarget != u) target[t][i++] = u;
+                    prevTarget = u;
+                } else {
+                    target[t][i++] = nVertices;
+                }
+            }
+        }
+        Solution solution = new Solution();
+
+        long start = System.nanoTime();
+        IntStream.range(0, nTests).parallel().forEach(i -> {
+            int[] path = solution.similarPath(nVertices, edges[i], target[i]);
+            assertNotNull(path);
+        });
+        long end = System.nanoTime();
+        System.out.println((end - start) / 1e9);
     }
 
     private static final int distance(int[] a, int[] b) {
