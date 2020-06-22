@@ -62,18 +62,33 @@ public class Solution {
                     critical.add(edgeIndex);
                     uf.union(edge[0], edge[1]);
                 }
-                for (Set<Integer> set : pq) {
-                    pseudoCritical.addAll(set);
-                    for (Integer edgeIndex : set) {
-                        int[] edge = edges[edgeIndex];
-                        uf.union(edge[0], edge[1]);
+                if (!pq.isEmpty()) {
+                    Set<Integer> edgeSet = new HashSet<>();
+                    for (Set<Integer> set : pq) edgeSet.addAll(set);
+                    int minUnionSize = numberOfUnionsAfterAdd(uf, n, edgeSet, edges, null);
+
+                    for (Integer edgeIndex : edgeSet) {
+                        if (numberOfUnionsAfterAdd(uf, n, edgeSet, edges, edgeIndex) > minUnionSize)
+                            critical.add(edgeIndex);
+                        else pseudoCritical.add(edgeIndex);
                     }
+                    for (Integer edgeIndex : edgeSet) uf.union(edges[edgeIndex][0], edges[edgeIndex][1]);
                 }
             }
             start = end;
         }
         return Arrays.asList(critical, new ArrayList<>(pseudoCritical));
     }
+
+    private static int numberOfUnionsAfterAdd(UnionFind uf, int n, Set<Integer> edgeSet, int[][] edges, Integer edgeToSkip) {
+        UnionFind tuf = new UnionFind(uf);
+        for (Integer edgeIndex : edgeSet)
+            if (!edgeIndex.equals(edgeToSkip)) tuf.union(edges[edgeIndex][0], edges[edgeIndex][1]);
+        HashSet<Integer> unions = new HashSet<>();
+        for (int i = 0; i < n; i++) unions.add(tuf.find(i));
+        return unions.size();
+    }
+
 
     private static class UnionFind {
         private final int n;
@@ -86,6 +101,12 @@ public class Solution {
             for (int i = 0; i < n; i++) {
                 p[i] = i;
             }
+        }
+
+        public UnionFind(UnionFind uf) {
+            this.n = uf.n;
+            this.p = Arrays.copyOf(uf.p, n);
+            this.rank = Arrays.copyOf(uf.rank, n);
         }
 
         int find(int x) {
