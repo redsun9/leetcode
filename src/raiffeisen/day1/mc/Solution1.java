@@ -1,4 +1,4 @@
-package raiffeisen.mc;
+package raiffeisen.day1.mc;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;

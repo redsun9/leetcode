@@ -1,4 +1,4 @@
-package raiffeisen.dp;
+package raiffeisen.day1.dp;
 
 import org.junit.jupiter.api.Test;
 

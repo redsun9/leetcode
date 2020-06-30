@@ -1,4 +1,4 @@
-package raiffeisen.mc;
+package raiffeisen.day1.mc;
 
 import java.util.Comparator;
 import java.util.Random;
