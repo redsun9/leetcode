@@ -27,6 +27,7 @@ class SolutionTest {
 
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void perfTest() {
         Random random = new Random(0);
         int numberOfTests = 1000;

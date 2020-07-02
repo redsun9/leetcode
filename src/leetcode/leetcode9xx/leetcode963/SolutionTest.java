@@ -12,6 +12,7 @@ class SolutionTest {
     private static final int maxCoord = 40000;
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void prefTest() {
 //        8419151500
 //        1745615600
@@ -31,6 +32,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void prefTest2() {
         //solution2 - 18250616900
         //solution3 - 2733845800

@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 class SolutionTest {
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testProbabilityOfSuccess() {
         //97852
         //98617
@@ -42,6 +43,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testEffectiveness() {
         //714413
         //708735
