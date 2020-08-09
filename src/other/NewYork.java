@@ -7,13 +7,13 @@ import java.util.Scanner;
 public class NewYork {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int t = Integer.parseInt(scanner.nextLine());
+        int t = scanner.nextInt();
         for (int k = 0; k < t; k++) {
-            int n = Integer.parseInt(scanner.nextLine());
-            int[][] coords = new int[n][2];
+            int n = scanner.nextInt();
+            long[][] coords = new long[n][2];
             for (int i = 0; i < n; i++) {
-                coords[i][0] = scanner.nextInt();
-                coords[i][1] = scanner.nextInt();
+                coords[i][0] = scanner.nextLong();
+                coords[i][1] = scanner.nextLong();
             }
             HashMap<Pair, Integer> countMap = new HashMap<>();
             int ans = 0;
@@ -31,7 +31,7 @@ public class NewYork {
     }
 
     private static final class Pair {
-        int x1, x2;
+        long x1, x2;
 
         @Override
         public boolean equals(Object o) {
@@ -47,7 +47,7 @@ public class NewYork {
             return Objects.hash(x1, x2);
         }
 
-        public Pair(int x1, int x2) {
+        public Pair(long x1, long x2) {
             this.x1 = x1;
             this.x2 = x2;
         }
