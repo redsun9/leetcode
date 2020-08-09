@@ -36,7 +36,12 @@ public class Html {
                 else System.out.println(incorrect);
             } else if (n == 0 && errorClosedTag != null) {
                 if (openedStack.isEmpty()) System.out.println(almost + "</" + errorClosedTag + ">");
-                else System.out.println(incorrect);
+                else if (openedStack.size() == 2) {
+                    String errorOpenedTag = openedStack.pop();
+                    if (openedStack.pop().equals(errorClosedTag))
+                        System.out.println(almost + "<" + errorOpenedTag + ">");
+                    else System.out.println(incorrect);
+                } else System.out.println(incorrect);
             } else {
                 Stack<String> closedStack = new Stack<>();
                 closedStack.addAll(openedStack);
@@ -50,8 +55,9 @@ public class Html {
                     deleteOpenedOk = openedStack.pop().equals(errorClosedTag);
                 }
 
-                while ((deleteOpenedOk || deleteClosedOk) && n-- > 0) {
+                while ((deleteOpenedOk || deleteClosedOk) && n > 0) {
                     String s = scanner.nextLine();
+                    n--;
                     boolean opened = s.charAt(1) != '/';
                     String tag = s.substring(opened ? 1 : 2, s.length() - 1).toUpperCase();
                     if (opened) {
@@ -73,6 +79,7 @@ public class Html {
                     System.out.println(almost + "</" + errorClosedTag + ">");
                 else System.out.println(incorrect);
             }
+            while (n-- > 0) scanner.nextLine();
         }
     }
 }
