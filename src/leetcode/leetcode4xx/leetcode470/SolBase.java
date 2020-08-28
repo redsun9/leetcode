@@ -6,6 +6,6 @@ public class SolBase {
     Random random = new Random();
 
     public int rand7() {
-        return random.nextInt(7);
+        return 1 + random.nextInt(7);
     }
 }
