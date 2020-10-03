@@ -39,6 +39,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testRandom() {
         int[][] tests = generateTests(100_000, 10_000);
         Solution solution1 = new Solution();
@@ -54,6 +55,7 @@ class SolutionTest {
     //602512000
     //1302905200
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerf() {
         int[][] tests = generateTests(100_000, 10_000);
         Solution solution1 = new Solution();

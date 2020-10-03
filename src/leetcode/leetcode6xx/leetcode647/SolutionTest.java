@@ -62,6 +62,7 @@ class SolutionTest {
         69220000
      */
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfForCardinality() {
         Random random = new Random(0);
         int numberOfTests = 1000;
@@ -140,6 +141,7 @@ class SolutionTest {
      */
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfForAB() {
         Random random = new Random(0);
         int numberOfTests = 1000;

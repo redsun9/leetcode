@@ -63,6 +63,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testRandom() {
         Random random = new Random(0);
         int numberOfTests = 1000;
@@ -79,6 +80,7 @@ class SolutionTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerf() {
         Random random = new Random(0);
         int numberOfTests = 1000;

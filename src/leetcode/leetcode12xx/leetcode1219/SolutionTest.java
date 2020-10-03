@@ -43,6 +43,7 @@ class SolutionTest {
     1252039616 - cache miss count
      */
     @Test
+    @org.junit.jupiter.api.Disabled
     void perfTest() {
         Solution solution = new Solution();
         Solution2 solution2 = new Solution2();

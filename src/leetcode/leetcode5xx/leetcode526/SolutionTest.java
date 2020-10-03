@@ -26,6 +26,7 @@ class SolutionTest {
     //39 38_352772300 5415462995568
     //40 155_761057200 29811240618112
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerf() {
         Solution2 solution = new Solution2();
         for (int i = 32; i <= 40; i++) {
@@ -46,6 +47,7 @@ class SolutionTest {
     //39 10_708053800 5415462995568
     //40 53_094639300 29811240618112
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerf2() {
         Solution3 solution = new Solution3();
         for (int i = 32; i <= 40; i++) {

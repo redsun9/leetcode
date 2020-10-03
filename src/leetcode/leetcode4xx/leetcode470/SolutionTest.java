@@ -13,6 +13,7 @@ class SolutionTest {
         11260975900
      */
     @Test
+    @org.junit.jupiter.api.Disabled
     void perfTest() {
         Solution solution = new Solution();
         Solution2 solution2 = new Solution2();

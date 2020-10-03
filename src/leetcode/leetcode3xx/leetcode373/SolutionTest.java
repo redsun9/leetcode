@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SolutionTest {
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void perfTest() {
         // on large test inputs secodn solution 6 times faster
         Random random = new Random();
