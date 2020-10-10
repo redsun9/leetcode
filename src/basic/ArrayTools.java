@@ -227,4 +227,28 @@ public class ArrayTools {
             a[i] = t;
         }
     }
+
+    /*
+        not equally distributed
+     */
+    public static int[] generateRandomSortedArray(int minValue, int maxValue, int length, Random random) {
+        int range = maxValue - minValue - length + 2;
+        int[] arr = new int[length];
+        for (int i = 0; i < length; i++) arr[i] = random.nextInt(range);
+        Arrays.sort(arr);
+        for (int i = 0; i < length; i++, minValue++) arr[i] += minValue;
+        return arr;
+    }
+
+    public static int[] reservoirSampling(int minValue, int maxValue, int length, Random random) {
+        int range = maxValue - minValue + 1;
+        int[] arr = new int[length];
+        for (int i = 0; i < length; i++) arr[i] = minValue + i;
+        for (int i = minValue + length; i <= maxValue; i++) {
+            int p = random.nextInt(range);
+            if (p < length) arr[p] = i;
+        }
+        Arrays.sort(arr);
+        return arr;
+    }
 }
