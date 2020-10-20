@@ -1,7 +1,7 @@
 package atcoder.abc158;
 
-import basic.IntegerUtils;
 import basic.tuples.Pair;
+import basic.utils.IntegerUtils;
 
 import java.util.Arrays;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package basic;
+package basic.utils;
 
 import basic.matrix.MatrixTools;
 import basic.tuples.Pair;

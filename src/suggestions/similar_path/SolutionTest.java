@@ -1,6 +1,6 @@
 package suggestions.similar_path;
 
-import basic.ArrayTools;
+import basic.utils.ArrayTools;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

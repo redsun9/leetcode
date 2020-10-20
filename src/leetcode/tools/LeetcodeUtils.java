@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
-import static basic.ArrayTools.generateRandomSortedArray;
+import static basic.utils.ArrayTools.generateRandomSortedArray;
 
 @SuppressWarnings("ConstantConditions")
 public class LeetcodeUtils {
