@@ -1,8 +1,6 @@
 package leetcode.tools;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 import static basic.utils.ArrayTools.generateRandomSortedArray;
 
@@ -39,6 +37,39 @@ public class LeetcodeUtils {
             node = new ListNode(values[i], node);
         }
         return node;
+    }
+
+    public static List<Integer> getInOrderValues(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+
+        while (root != null || !stack.empty()) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            ans.add(root.val);
+            root = root.right;
+        }
+        return ans;
+    }
+
+    public static List<Integer> getPostOrderValues(TreeNode root) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if (root != null) {
+            stack.push(root);
+            while (!stack.isEmpty()) {
+                TreeNode node = stack.pop();
+                if (node.left != null)
+                    stack.add(node.left);
+                if (node.right != null)
+                    stack.add(node.right);
+                ans.addFirst(node.val);
+            }
+        }
+        return ans;
     }
 
     public static TreeNode generateBalancedTree(int minValue, int maxValue, int length, Random random) {
