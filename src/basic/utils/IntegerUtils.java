@@ -121,7 +121,7 @@ public class IntegerUtils {
                 res = (res * a) % m;
                 --b;
             } else {
-                a = (a * a) % m;
+                a = (int) (((long) a * a) % m);
                 b >>= 1;
             }
         return (int) res;
