@@ -2,6 +2,7 @@ package leetcode.leetcode4xx.leetcode449;
 
 import leetcode.tools.LeetcodeUtils;
 import leetcode.tools.TreeNode;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,6 +14,7 @@ public class CompressionBenchmark {
     private final int testNumber = 10000;
 
     @Test
+    @Disabled
     void testBalanced() {
         Codec1 codec1 = new Codec1();
         for (int testLength : testLengths) {
@@ -27,6 +29,7 @@ public class CompressionBenchmark {
     }
 
     @Test
+    @Disabled
     void testDegenerated() {
         Codec1 codec1 = new Codec1();
         for (int testLength : testLengths) {
@@ -41,6 +44,7 @@ public class CompressionBenchmark {
     }
 
     @Test
+    @Disabled
     void testRandom() {
         Codec1 codec1 = new Codec1();
         for (int testLength : testLengths) {

@@ -1,5 +1,6 @@
 package leetcode.leetcode1xx.leetcode179;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ class SolutionTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled
+    @Disabled
     void test3() {
         //counterexample to https://www.geeksforgeeks.org/arrange-given-numbers-form-biggest-number-set-2
         int[] nums = {119301, 11930};
@@ -35,6 +36,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testCorrectness() {
         int n = 2_000_000;
         int[] nums = new int[n];
@@ -48,7 +50,7 @@ class SolutionTest {
 
 
     @Test
-    @org.junit.jupiter.api.Disabled
+    @Disabled
     void testRandom() {
         int[][] tests = generateTests(1000000, 100, 1000000);
         Solution solution1 = new Solution();
@@ -91,7 +93,7 @@ class SolutionTest {
         //9964939500
         //4359737500
         //1626109900
-    @org.junit.jupiter.api.Disabled
+    @Disabled
     void testPerformance() {
         int[][] testSizes = {
                 {1000000, 10},

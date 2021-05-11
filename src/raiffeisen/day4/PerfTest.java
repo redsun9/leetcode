@@ -1,5 +1,6 @@
 package raiffeisen.day4;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -21,6 +22,7 @@ class PerfTest {
     };
 
     @Test
+    @Disabled
     void checkCorrectness() {
         for (int i = 2; i <= 1_000_000; i++) {
             boolean prime = primeTesters1[0].isPrime(i);
@@ -36,6 +38,7 @@ class PerfTest {
     }
 
     @Test
+    @Disabled
     void checkCorrectness2() {
         IntStream.rangeClosed(2, Integer.MAX_VALUE).parallel()
                 .forEach(i -> {
@@ -52,6 +55,7 @@ class PerfTest {
     }
 
     @Test
+    @Disabled
     void perfTest() {
         for (PrimeTester primeTester : primeTesters1) {
             long startTime = System.nanoTime();
@@ -64,6 +68,7 @@ class PerfTest {
     }
 
     @Test
+    @Disabled
     void perfTest2() {
         for (PrimeTester primeTester : primeTesters2) {
             long startTime = System.nanoTime();
@@ -77,6 +82,7 @@ class PerfTest {
     }
 
     @Test
+    @Disabled
     void perfTest3() {
         for (int i = 4; i <= 20; i++) {
             PrimeTester5 primeTester = new PrimeTester5(i);

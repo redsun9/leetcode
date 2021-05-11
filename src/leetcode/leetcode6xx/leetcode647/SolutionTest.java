@@ -1,5 +1,6 @@
 package leetcode.leetcode6xx.leetcode647;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void test3() {
         Random random = new Random(0);
         int numberOfTests = 100;

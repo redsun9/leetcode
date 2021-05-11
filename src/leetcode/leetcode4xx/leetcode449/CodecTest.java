@@ -2,6 +2,7 @@ package leetcode.leetcode4xx.leetcode449;
 
 import leetcode.tools.LeetcodeUtils;
 import leetcode.tools.TreeNode;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -40,6 +41,7 @@ class CodecTest {
     }
 
     @Test
+    @Disabled
     void testBalanced() {
         Codec1 codec1 = new Codec1();
         IntStream.range(0, TESTS_PER_SUITE).forEach(t -> {
@@ -52,6 +54,7 @@ class CodecTest {
     }
 
     @Test
+    @Disabled
     void testDegenerated() {
         Codec1 codec1 = new Codec1();
         IntStream.range(0, TESTS_PER_SUITE).forEach(t -> {
@@ -64,6 +67,7 @@ class CodecTest {
     }
 
     @Test
+    @Disabled
     void testRandom() {
         Codec1 codec1 = new Codec1();
         IntStream.range(0, TESTS_PER_SUITE).forEach(t -> {

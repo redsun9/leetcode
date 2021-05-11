@@ -2,6 +2,7 @@ package leetcode.leetcode1xx.leetcode106;
 
 import leetcode.tools.LeetcodeUtils;
 import leetcode.tools.TreeNode;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -25,6 +26,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testRecursiveSolutionOnBalancedTrees() {
         int n = 10000;
         int minValue = 0;
@@ -48,6 +50,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testIterativeSolutionOnBalancedTrees() {
         int n = 10000;
         int minValue = 0;
@@ -71,6 +74,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testRecursiveSolutionOnRandomTrees() {
         int n = 10000;
         int minValue = 0;
@@ -94,6 +98,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testIterativeSolutionOnRandomTrees() {
         int n = 10000;
         int minValue = 0;
@@ -117,6 +122,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testRecursiveSolutionOnDegeneratedTrees() {
         int n = 100000;
         int minValue = 0;
@@ -140,6 +146,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testIterativeSolutionOnDegeneratedTrees() {
         int n = 100000;
         int minValue = 0;
