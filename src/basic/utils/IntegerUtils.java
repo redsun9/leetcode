@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class IntegerUtils {
     private static final int[] firstPrimes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
     private static final int nextPrime = 101;
@@ -19,8 +20,7 @@ public class IntegerUtils {
     public static Collection<Long> getPrimeDivisors(long x) {
         ArrayList<Long> primes = new ArrayList<>();
         int limit = (int) Math.sqrt(x);
-        for (int i = 0; i < firstPrimes.length; i++) {
-            int prime = firstPrimes[i];
+        for (int prime : firstPrimes) {
             if (x % prime == 0) {
                 primes.add((long) prime);
                 while (x % prime == 0) {
@@ -45,8 +45,7 @@ public class IntegerUtils {
     public static List<Pair<Long, Integer>> getFactorization(long x) {
         ArrayList<Pair<Long, Integer>> primes = new ArrayList<>();
         int limit = (int) Math.sqrt(x);
-        for (int i = 0; i < firstPrimes.length; i++) {
-            int prime = firstPrimes[i];
+        for (int prime : firstPrimes) {
             if (x % prime == 0) {
                 x /= prime;
                 int c = 1;
@@ -138,7 +137,7 @@ public class IntegerUtils {
 
     // x[N] = sum_{i=0}^{k-1} x[N-k+i]*b[i]
     // x[i] = a[i], for i=0..k-1
-    public static long recurrentSequence(int a[], int b[], int n) {
+    public static long recurrentSequence(int[] a, int[] b, int n) {
         int k = a.length;
         if (n < k) {
             return a[n];
