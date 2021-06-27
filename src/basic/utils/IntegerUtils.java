@@ -172,4 +172,20 @@ public class IntegerUtils {
         }
         return res % p;
     }
+
+    public static int reverse(int a, int n) {
+        int t = 0, newT = 1, r = n, newR = a, q, tmp;
+        while (newR != 0) {
+            q = r / newR;
+            tmp = t - q * newT;
+            t = newT;
+            newT = tmp;
+            tmp = r - q * newR;
+            r = newR;
+            newR = tmp;
+        }
+        if (r > 1) return -1;
+        if (t < 0) t += n;
+        return t;
+    }
 }
