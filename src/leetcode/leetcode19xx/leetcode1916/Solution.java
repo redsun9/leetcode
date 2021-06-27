@@ -1,13 +1,25 @@
 package leetcode.leetcode19xx.leetcode1916;
 
-import java.math.BigInteger;
 import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class Solution {
     private static final int p = 1_000_000_007;
-    private static final BigInteger bigP = BigInteger.valueOf(p);
 
+    private static int reverse(int a) {
+        int t = 0, newT = 1, r = p, newR = a, q, tmp;
+        while (newR != 0) {
+            q = r / newR;
+            tmp = t - q * newT;
+            t = newT;
+            newT = tmp;
+            tmp = r - q * newR;
+            r = newR;
+            newR = tmp;
+        }
+        if (t < 0) t += p;
+        return t;
+    }
 
     public int waysToBuildRooms(int[] prevRoom) {
         int n = prevRoom.length;
@@ -22,14 +34,11 @@ public class Solution {
         int[] reverseFactors = new int[n];
         factors[0] = 1;
         reverseFactors[0] = 1;
-        for (int i = 1; i < n; i++) {
-            factors[i] = (int) (factors[i - 1] * (long) i % p);
-            reverseFactors[i] = (int) (reverseFactors[i - 1] * BigInteger.valueOf(i).modInverse(bigP).longValue() % p);
-        }
+        for (int i = 1; i < n; i++) factors[i] = (int) (factors[i - 1] * (long) i % p);
 
         int[] size = new int[n];
         Arrays.fill(size, 1);
-        long[] dp = new long[n];
+        int[] dp = new int[n];
         Arrays.fill(dp, -1);
         Deque<Integer> queue = new ArrayDeque<>();
         queue.addLast(0);
@@ -45,14 +54,20 @@ public class Solution {
             } else {
                 queue.pollLast();
                 if (children[peek] != null) {
+                    int tmp = 1;
                     for (Integer child : children[peek]) {
                         size[peek] += size[child];
-                        dp[peek] = dp[peek] * dp[child] % p * reverseFactors[size[child]] % p;
+                        int reverseFactor = reverseFactors[size[child]];
+                        if (reverseFactor == 0) {
+                            reverseFactor = reverse(factors[size[child]]);
+                            reverseFactors[size[child]] = reverseFactor;
+                        }
+                        tmp = (int) ((long) tmp * dp[child] % p * reverseFactor % p);
                     }
-                    dp[peek] = dp[peek] * factors[size[peek] - 1] % p;
+                    dp[peek] = (int) ((long) tmp * factors[size[peek] - 1] % p);
                 }
             }
         }
-        return (int) dp[0];
+        return dp[0];
     }
 }
