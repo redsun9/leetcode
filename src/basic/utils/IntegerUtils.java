@@ -100,8 +100,7 @@ public class IntegerUtils {
     public static int gcd(int a, int b) {
         int c;
         while (b != 0) {
-            a %= b;
-            c = a;
+            c = a % b;
             a = b;
             b = c;
         }
