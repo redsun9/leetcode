@@ -13,15 +13,14 @@ public class Solution {
         if (cache[n][k] == -1) {
             long ans = 0;
             for (int i = Math.min(n - 1, k); i >= 0; i--) {
-                ans = (ans + kInversePairs(n - 1, k - i, cache)) % p;
+                ans += kInversePairs(n - 1, k - i, cache);
             }
-            cache[n][k] = (int) ans;
+            cache[n][k] = (int) (ans%p);
         }
         return cache[n][k];
     }
 
     public int kInversePairs(int n, int k) {
-        if (k <= 0) return 0;
         int[][] cache = new int[n + 1][k + 1];
         for (int[] arr : cache) Arrays.fill(arr, -1);
         return kInversePairs(n, k, cache);
