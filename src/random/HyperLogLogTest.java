@@ -1,5 +1,6 @@
 package random;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.stream.IntStream;
 class HyperLogLogTest {
 
     @Test
+    @Disabled
     void test() {
         int maxLevel = 11;
         HyperLogLog[] hlls = new HyperLogLog[maxLevel];
