@@ -1,11 +1,10 @@
 package basic;
 
+@SuppressWarnings({"DuplicatedCode", "SuspiciousNameCombination"})
 public class UnionFind {
-    private final int n;
-    private final int p[], rank[];
+    private final int[] p, rank;
 
     public UnionFind(int n) {
-        this.n = n;
         rank = new int[n];
         p = new int[n];
         for (int i = 0; i < n; i++) {
