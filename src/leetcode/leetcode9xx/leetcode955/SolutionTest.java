@@ -1,4 +1,4 @@
-package suggestions.min_delete_to_make_array_string_sorted;
+package leetcode.leetcode9xx.leetcode955;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package suggestions.min_delete_to_make_array_string_sorted;
+package leetcode.leetcode9xx.leetcode955;
 
 /*
     We are given an array A of N lowercase letter strings, all of the same length.
