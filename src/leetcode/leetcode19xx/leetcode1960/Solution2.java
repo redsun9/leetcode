@@ -35,13 +35,13 @@ public class Solution2 {
 
         int[] left = new int[n];
         for (int i = 0, max = 1; i < n; i++) {
-            while (max < i && isPalindromic(i - max - 1, i + 1, lh, rh, pow)) max += 2;
+            if (max < i && isPalindromic(i - max - 1, i + 1, lh, rh, pow)) max += 2;
             left[i] = max;
         }
 
         int[] right = new int[n];
         for (int i = n - 1, max = 1; i >= 0; i--) {
-            while (i + max + 2 <= n && isPalindromic(i, i + max + 2, lh, rh, pow)) max += 2;
+            if (i + max + 2 <= n && isPalindromic(i, i + max + 2, lh, rh, pow)) max += 2;
             right[i] = max;
         }
 
