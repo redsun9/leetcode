@@ -7,9 +7,7 @@ public class UnionFind {
     public UnionFind(int n) {
         rank = new int[n];
         p = new int[n];
-        for (int i = 0; i < n; i++) {
-            p[i] = i;
-        }
+        for (int i = 0; i < n; i++) p[i] = i;
     }
 
     int find(int x) {
@@ -24,12 +22,10 @@ public class UnionFind {
         x = find(x);
         y = find(y);
         if (x == y) return;
-        if (rank[x] < rank[y])
-            p[x] = y;
+        if (rank[x] < rank[y]) p[x] = y;
         else {
             p[y] = x;
-            if (rank[x] == rank[y])
-                ++rank[x];
+            if (rank[x] == rank[y]) ++rank[x];
         }
     }
 }
