@@ -11,8 +11,10 @@ public class Solution {
             int i1 = i - k, i2 = i + k;
             while (k <= maxK && s[i1--] == s[i2++]) k++;
             ans[i] = k--;
-            if (i + k > r) l = i - k;
-            else r = i + k;
+            if (i + k > r) {
+                l = i - k;
+                r = i + k;
+            }
         }
         return ans;
     }

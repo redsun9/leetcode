@@ -13,24 +13,25 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-//Benchmark             (n)  (typeOfTest)  Mode  Cnt    Score   Error  Units
-//PerfTest.manacher    1000          same  avgt   10    9.936 ± 0.031  ms/op
-//PerfTest.manacher    1000        random  avgt   10    1.061 ± 0.011  ms/op
-//PerfTest.manacher    1000        binary  avgt   10    1.572 ± 0.014  ms/op
-//PerfTest.manacher   10000          same  avgt   10  772.987 ± 2.515  ms/op
-//PerfTest.manacher   10000        random  avgt   10   10.564 ± 0.044  ms/op
-//PerfTest.manacher   10000        binary  avgt   10   16.510 ± 0.119  ms/op
-//PerfTest.manacher  100000        random  avgt   10  104.236 ± 0.298  ms/op
-//PerfTest.manacher  100000        binary  avgt   10  164.740 ± 0.455  ms/op
-//PerfTest.rabin       1000          same  avgt   10    2.670 ± 0.004  ms/op
-//PerfTest.rabin       1000        random  avgt   10    2.492 ± 0.006  ms/op
-//PerfTest.rabin       1000        binary  avgt   10    2.530 ± 0.003  ms/op
-//PerfTest.rabin      10000          same  avgt   10   27.182 ± 0.069  ms/op
-//PerfTest.rabin      10000        random  avgt   10   24.503 ± 0.118  ms/op
-//PerfTest.rabin      10000        binary  avgt   10   24.439 ± 0.213  ms/op
-//PerfTest.rabin     100000          same  avgt   10  262.735 ± 0.708  ms/op
-//PerfTest.rabin     100000        random  avgt   10  246.333 ± 0.463  ms/op
-//PerfTest.rabin     100000        binary  avgt   10  246.295 ± 1.468  ms/op
+//Benchmark             (n)  (typeOfTest)  Mode  Cnt    Score    Error  Units
+//PerfTest.manacher    1000          same  avgt   10    2.258 ±  0.248  ms/op
+//PerfTest.manacher    1000        random  avgt   10    1.957 ±  0.021  ms/op
+//PerfTest.manacher    1000        binary  avgt   10    3.228 ±  0.174  ms/op
+//PerfTest.manacher   10000          same  avgt   10   20.481 ±  0.804  ms/op
+//PerfTest.manacher   10000        random  avgt   10   18.272 ±  0.280  ms/op
+//PerfTest.manacher   10000        binary  avgt   10   29.019 ±  0.223  ms/op
+//PerfTest.manacher  100000          same  avgt   10  200.183 ±  2.256  ms/op
+//PerfTest.manacher  100000        random  avgt   10  180.147 ±  0.427  ms/op
+//PerfTest.manacher  100000        binary  avgt   10  288.142 ±  4.747  ms/op
+//PerfTest.rabin       1000          same  avgt   10    3.450 ±  0.022  ms/op
+//PerfTest.rabin       1000        random  avgt   10    3.840 ±  0.019  ms/op
+//PerfTest.rabin       1000        binary  avgt   10    3.920 ±  0.042  ms/op
+//PerfTest.rabin      10000          same  avgt   10   36.167 ±  4.380  ms/op
+//PerfTest.rabin      10000        random  avgt   10   39.745 ±  1.147  ms/op
+//PerfTest.rabin      10000        binary  avgt   10   38.967 ±  0.254  ms/op
+//PerfTest.rabin     100000          same  avgt   10  345.992 ±  2.910  ms/op
+//PerfTest.rabin     100000        random  avgt   10  424.694 ± 13.552  ms/op
+//PerfTest.rabin     100000        binary  avgt   10  391.722 ±  6.365  ms/op
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -41,7 +42,7 @@ public class PerfTest {
     private final int BATCH_SIZE = 100;
     private final Solution solution = new Solution();
     private final Solution2 solution2 = new Solution2();
-    private String[] tests = new String[BATCH_SIZE];
+    private final String[] tests = new String[BATCH_SIZE];
 
     @Param({"1000", "10000", "100000"})
     private int n;
@@ -60,7 +61,6 @@ public class PerfTest {
 
     @Benchmark
     public void manacher(Blackhole bh) {
-        if (n == 100000 && typeOfTest.equals("same")) throw new RuntimeException();
         for (int i = 0; i < BATCH_SIZE; i++) bh.consume(solution.maxProduct(tests[i]));
     }
 
