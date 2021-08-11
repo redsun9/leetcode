@@ -1,5 +1,6 @@
 package leetcode.leetcode2xx.leetcode295;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -35,6 +36,7 @@ class MedianFinderTest {
     }
 
     @Test
+    @Disabled
     void testRepeatEven() {
         IntStream.range(1, 1000).forEach(i -> {
             MedianFinder medianFinder = new MedianFinder();
@@ -52,6 +54,7 @@ class MedianFinderTest {
     }
 
     @Test
+    @Disabled
     void testRepeatOdd() {
         IntStream.range(1, 1000).forEach(i -> {
             MedianFinder medianFinder = new MedianFinder();
@@ -69,6 +72,7 @@ class MedianFinderTest {
     }
 
     @Test
+    @Disabled
     void testRandomEven() {
         IntStream.range(1, 1000).forEach(i -> {
             MedianFinder medianFinder = new MedianFinder();
@@ -86,6 +90,7 @@ class MedianFinderTest {
     }
 
     @Test
+    @Disabled
     void testRandomOdd() {
         IntStream.range(1, 1000).forEach(i -> {
             MedianFinder medianFinder = new MedianFinder();

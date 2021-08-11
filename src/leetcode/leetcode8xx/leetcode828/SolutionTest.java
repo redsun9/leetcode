@@ -1,5 +1,6 @@
 package leetcode.leetcode8xx.leetcode828;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -27,6 +28,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testRandom() {
         int n = 1000, testNumber = 1000;
         IntStream.range(0, testNumber).parallel().forEach(t -> {

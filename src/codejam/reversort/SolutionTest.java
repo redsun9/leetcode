@@ -1,5 +1,6 @@
 package codejam.reversort;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class SolutionTest {
 
     @Test
+    @Disabled
     void test1() {
         for (int n = 2; n <= 100; n++) {
             for (int c = n - 1; c < n * (n + 1) / 2; c++) {
