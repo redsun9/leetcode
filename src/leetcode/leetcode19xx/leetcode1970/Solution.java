@@ -3,6 +3,9 @@ package leetcode.leetcode19xx.leetcode1970;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+// Binary search + bfs
+// O(n) - space, O(n*logn) - time
+
 class Solution {
     private static final int[] moves = {1, 0, -1, 0, 1};
 
