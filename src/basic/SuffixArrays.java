@@ -12,6 +12,34 @@ public class SuffixArrays {
         return SA;
     }
 
+    public static int[] buildInverseSuffixArray(int[] arr, int K) {
+        return inverseSuffixArray(buildSuffixArray(arr, K));
+    }
+
+    public static int[] inverseSuffixArray(int[] suffixArray) {
+        int n = suffixArray.length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) ans[suffixArray[i]] = i;
+        return ans;
+    }
+
+    public static int[] buildLongestCommonPrefixArray(int[] arr, int[] suffixArray, int[] invSuffixArray) {
+        int n = arr.length;
+        int[] lcp = new int[n - 1];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            if (k > 0) k--;
+            if (invSuffixArray[i] == n - 1) {
+                k = 0;
+            } else {
+                int j = suffixArray[invSuffixArray[i] + 1];
+                while (i + k < n && j + k < n && arr[i + k] == arr[j + k]) k++;
+                lcp[invSuffixArray[i]] = k;
+            }
+        }
+        return lcp;
+    }
+
     //Lexicographic order for pairs.
     private static boolean leq(int a1, int a2, int b1, int b2) {
         return (a1 < b1 || (a1 == b1 && a2 <= b2));
