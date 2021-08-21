@@ -1,5 +1,6 @@
 package leetcode.leetcode19xx.leetcode1977;
 
+@SuppressWarnings("DuplicatedCode")
 class Solution2 {
     private static final int p = 1_000_000_007;
 
