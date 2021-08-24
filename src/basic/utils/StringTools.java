@@ -1,6 +1,34 @@
 package basic.utils;
 
 public class StringTools {
+    public static int[] zFunction(String s) {
+        int n = s.length();
+        int[] zf = new int[n];
+        int left = 0, right = 0;
+        for (int i = 1; i < n; i++) {
+            zf[i] = Math.max(0, Math.min(right - i, zf[i - left]));
+            while (i + zf[i] < n && s.charAt(zf[i]) == s.charAt(i + zf[i])) zf[i]++;
+            if (i + zf[i] > right) {
+                left = i;
+                right = i + zf[i];
+            }
+        }
+        return zf;
+    }
+
+    public static int[] prefixFunction(String s) {
+        int n = s.length();
+        int[] p = new int[n];
+        for (int i = 1; i < n; i++) {
+            int k = p[i - 1];
+            while (k > 0 && s.charAt(i) != s.charAt(k)) k = p[k - 1];
+            if (s.charAt(i) == s.charAt(k)) k++;
+            p[i] = k;
+        }
+        return p;
+    }
+
+
     //number of palindromes of odd length with center at i
     public static int[] manacherOdd(String s) {
         int n = s.length();
