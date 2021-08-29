@@ -1,5 +1,6 @@
 package basic.utils;
 
+@SuppressWarnings("DuplicatedCode")
 public class StringTools {
     public static int[] zFunction(String s) {
         int n = s.length();
