@@ -1,4 +1,4 @@
-package tinkoff.TwoDifferentChar;
+package tinkoff.two_different_chars;
 
 import org.junit.jupiter.api.Test;
 

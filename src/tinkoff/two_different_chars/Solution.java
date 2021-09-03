@@ -1,4 +1,4 @@
-package tinkoff.TwoDifferentChar;
+package tinkoff.two_different_chars;
 
 import java.util.Scanner;
 

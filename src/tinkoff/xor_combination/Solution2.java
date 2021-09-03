@@ -1,4 +1,4 @@
-package tinkoff.XorCombination;
+package tinkoff.xor_combination;
 
 import java.util.Scanner;
 
