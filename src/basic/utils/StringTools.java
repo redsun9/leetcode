@@ -76,7 +76,7 @@ public class StringTools {
             }
         }
 
-        char[] ans = new char[dp[m][n]];
+        char[] ans = new char[dp[0][0]];
         int i = 0, j = 0, pos = 0;
         while (i < m && j < n) {
             if (x.charAt(i) == y.charAt(j)) {
@@ -85,6 +85,41 @@ public class StringTools {
                 j++;
             } else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
             else j++;
+        }
+        return new String(ans);
+    }
+
+    //longest common subsequence
+    public static String lcs(String x, String y, String z) {
+        int m = x.length(), n = y.length(), p = z.length();
+        int[][][] dp = new int[m + 1][n + 1][p + 1];
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                for (int k = p - 1; k >= 0; k--) {
+                    if (x.charAt(i) == y.charAt(j) && x.charAt(i) == z.charAt(k)) {
+                        dp[i][j][k] = dp[i + 1][j + 1][k + 1] + 1;
+                    } else {
+                        dp[i][j][k] = Math.max(dp[i + 1][j][k], Math.max(dp[i][j + 1][k], dp[i][j][k + 1]));
+                    }
+                }
+            }
+        }
+
+        char[] ans = new char[dp[0][0][0]];
+        int i = 0, j = 0, k = 0, pos = 0;
+        while (i < m && j < n && k < p) {
+            if (x.charAt(i) == y.charAt(j) && x.charAt(i) == z.charAt(k)) {
+                ans[pos++] = x.charAt(i);
+                i++;
+                j++;
+                k++;
+            } else if (dp[i + 1][j][k] >= dp[i][j + 1][k]) {
+                if (dp[i + 1][j][k] >= dp[i][j][k + 1]) i++;
+                else k++;
+            } else {
+                if (dp[i][j + 1][k] >= dp[i][j][k + 1]) j++;
+                else k++;
+            }
         }
         return new String(ans);
     }

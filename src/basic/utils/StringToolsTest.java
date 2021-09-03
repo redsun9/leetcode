@@ -3,6 +3,7 @@ package basic.utils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("SpellCheckingInspection")
 class StringToolsTest {
@@ -31,5 +32,20 @@ class StringToolsTest {
     @Test
     void manacherEven() {
         assertArrayEquals(new int[]{0, 0, 0, 2, 0, 1}, StringTools.manacherEven("abaabb"));
+    }
+
+
+    @Test
+    void testLcs2() {
+        String x = "asdjauhfdgysf", y = "sdjnfsjdhvsgvcs";
+        String actual = StringTools.lcs(x, y);
+        assertEquals("sdjfdgs", actual);
+    }
+
+    @Test
+    void testLcs3() {
+        String x = "asbvasdad", y = "avdbvada", z = "asvsbvavsas";
+        String actual = StringTools.lcs(x, y, z);
+        assertEquals("abvaa", actual);
     }
 }
