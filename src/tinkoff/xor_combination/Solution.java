@@ -33,13 +33,17 @@ public class Solution {
     }
 
     private static int dfs(int n, int m, int weight, long[] bc) {
-        if (weight == 0 && m == 0) return 1;
-        if (weight <= 0) return 0;
+        if (m == 0) return 1;
+        if (weight == 1) return m <= n ? (int) bc[m] : 0;
 
         long ans = 0;
         int nextWeight = weight >>> 1;
-        for (int i = 0; i <= n && m >= 0; i += 2, m -= 2 * weight) {
-            ans = ans + bc[i] * dfs(n, m, nextWeight, bc);
+
+        int s = m - (weight - 1) * (n & ~1);
+        int min = s <= 0 ? 0 : (s + 2 * weight - 1) / (2 * weight);
+
+        for (int i = min * 2, left = m - i * weight; i <= n && left >= 0; i += 2, left -= 2 * weight) {
+            ans = ans + bc[i] * dfs(n, left, nextWeight, bc);
             if (ans >= p) ans %= p;
         }
         return (int) (ans);

@@ -1,5 +1,6 @@
 package tinkoff.xor_combination;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -7,7 +8,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
-    private static final int MAX_N = 10, MAX_M = 5000;
+    private static final int MIN_N = 2, MAX_N = 100, MIN_M = 1, MAX_M = 1000;
 
     @Test
     void test1() {
@@ -28,31 +29,35 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testCorrectness() {
-        IntStream.rangeClosed(1, MAX_N).parallel().forEach(n ->
-                IntStream.rangeClosed(1, MAX_M).parallel().forEach(m ->
-                        assertEquals(Solution.solve(n, m), Solution2.solve(n, m))
+        IntStream.rangeClosed(MIN_N, MAX_N).parallel().forEach(n ->
+                IntStream.rangeClosed(MIN_M, MAX_M).parallel().forEach(m ->
+                        assertEquals(Solution.solve(n, m * 2), Solution2.solve(n, m * 2))
                 )
         );
     }
 
-    //31032118600
-    //  514195600
+    //90563622400
+    //448972200
     @Test
+    @Disabled
     void testPerf() {
-        long startTime = System.nanoTime();
-        IntStream.rangeClosed(1, MAX_N).parallel().forEach(n ->
-                IntStream.rangeClosed(1, MAX_M).parallel().forEach(m ->
-                        Solution.solve(n, m)
+        long startTime, endTime;
+
+        startTime = System.nanoTime();
+        IntStream.rangeClosed(MIN_N, MAX_N).parallel().forEach(n ->
+                IntStream.rangeClosed(MIN_M, MAX_M).parallel().forEach(m ->
+                        Solution.solve(n, m * 2)
                 )
         );
-        long endTime = System.nanoTime();
+        endTime = System.nanoTime();
         System.out.println(endTime - startTime);
 
         startTime = System.nanoTime();
-        IntStream.rangeClosed(1, MAX_N).parallel().forEach(n ->
-                IntStream.rangeClosed(1, MAX_M).parallel().forEach(m ->
-                        Solution2.solve(n, m)
+        IntStream.rangeClosed(MIN_N, MAX_N).parallel().forEach(n ->
+                IntStream.rangeClosed(MIN_M, MAX_M).parallel().forEach(m ->
+                        Solution2.solve(n, m * 2)
                 )
         );
         endTime = System.nanoTime();

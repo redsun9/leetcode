@@ -16,7 +16,7 @@ public class Solution2 {
     static int solve(int n, int m) {
         if ((m & 1) != 0) return 0;
         if (n == 1) return m == 0 ? 1 : 0;
-        if (m == 0) return 1;
+        if (m == 0 || n == 2) return 1;
 
         // b[i] = a binomial coefficient = C(n;i) mod p
         // b[i] - number of ways to choose i elements from n
@@ -34,7 +34,11 @@ public class Solution2 {
         if (cache[k][m] == 0) {
             long ans = 0;
             int weight = 2 << k;
-            for (int i = 0, left = m; i <= n && left >= 0; i += 2, left -= weight) {
+
+            int s = m - ((1 << k) - 1) * (n & ~1);
+            int min = s <= 0 ? 0 : (s + weight - 1) >>> (k + 1);
+
+            for (int i = min * 2, left = m - weight * min; i <= n && left >= 0; i += 2, left -= weight) {
                 ans = ans + bc[i] * dfs(n, left, k - 1, bc, cache);
                 if (ans >= p) ans %= p;
             }
