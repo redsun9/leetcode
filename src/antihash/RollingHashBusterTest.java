@@ -27,6 +27,7 @@ class RollingHashBusterTest {
     }
 
     @Test
+    @Disabled
     void testRollingHashWithOverflowHashCollision() {
         for (int shift : shifts) {
             for (int prime : primes) {
@@ -38,6 +39,7 @@ class RollingHashBusterTest {
     }
 
     @Test
+    @Disabled
     void testRollingHashWithoutOverflowNoCollision() {
         for (int shift : shifts) {
             for (int prime : primes) {
