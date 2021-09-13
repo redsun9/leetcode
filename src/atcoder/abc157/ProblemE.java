@@ -30,10 +30,6 @@ public class ProblemE {
         private final int[][] t;
         private final int n;
 
-        public String debugPrint() {
-            return new String(str);
-        }
-
         public Fenwick(String string) {
             this.str = string.toCharArray();
             n = string.length();

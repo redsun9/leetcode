@@ -1,5 +1,6 @@
 package leetcode.leetcode4xx.leetcode464;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -26,6 +27,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void test() {
         Solution solution = new Solution();
         Solution2 solution2 = new Solution2();
