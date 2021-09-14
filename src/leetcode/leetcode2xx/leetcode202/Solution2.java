@@ -1,12 +1,13 @@
 package leetcode.leetcode2xx.leetcode202;
 
-import java.util.HashSet;
-
-public class Solution {
+public class Solution2 {
     public boolean isHappy(int n) {
-        HashSet<Integer> cache = new HashSet<>();
-        while (cache.add(n) && n != 1) n = sum(n);
-        return n == 1;
+        int fast = n, slow = n;
+        do {
+            fast = sum(sum(fast));
+            slow = sum(slow);
+        } while (fast != 1 && fast != slow);
+        return fast == 1;
     }
 
     private static int sum(int n) {
