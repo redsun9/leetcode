@@ -40,6 +40,7 @@ class MaxHeapTest {
     }
 
     @Test
+    @org.junit.jupiter.api.Disabled
     void testPerfAddingByOne() {
         int[] a = new int[smallN];
         for (int i = 0; i < smallN; i++) {

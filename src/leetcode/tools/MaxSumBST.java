@@ -3,8 +3,6 @@ package leetcode.tools;
 import java.util.Stack;
 
 public class MaxSumBST {
-    private static final boolean isDebug = true;
-
     /*
         find subtree with max sum
         subtree can remove it's subtrees, leaves
@@ -29,14 +27,7 @@ public class MaxSumBST {
                 }
                 peek.seen = true;
             } else {
-                if (isDebug) {
-                    System.out.print(peek.node.val + " " + peek.left + " " + peek.right + " ");
-                }
                 peek.cut();
-                if (isDebug) {
-                    System.out.print(" -> " + peek.node.val + " " + peek.left + " " + peek.right + " = ");
-                    System.out.println(peek.sum);
-                }
                 maxValue = Math.max(maxValue, peek.sum);
                 stack.pop();
             }

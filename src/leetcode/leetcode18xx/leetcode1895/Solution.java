@@ -1,7 +1,5 @@
 package leetcode.leetcode18xx.leetcode1895;
 
-import java.util.Arrays;
-
 public class Solution {
     public int largestMagicSquare(int[][] grid) {
         int m = grid.length, n = grid[0].length;
@@ -17,7 +15,6 @@ public class Solution {
                 rDiagPref[i + 1][j] = rDiagPref[i][j + 1] + grid[i][j];
             }
         }
-        System.out.println(Arrays.deepToString(rowPref));
 
         for (int k = Math.min(m, n); k >= 2; k--) {
             for (int i1 = m - 1, i2 = m - k; i2 >= 0; i1--, i2--) {
