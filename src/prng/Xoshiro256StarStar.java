@@ -1,6 +1,7 @@
 package prng;
 
 // Has a period of 2^256-1
+@SuppressWarnings("DuplicatedCode")
 public class Xoshiro256StarStar {
     private long[] arr;
 

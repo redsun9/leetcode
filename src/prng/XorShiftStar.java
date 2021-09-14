@@ -4,7 +4,7 @@ package prng;
 public class XorShiftStar {
     private long a;
 
-    public XorShiftStar(int a) {
+    public XorShiftStar(long a) {
         if (a == 0) throw new IllegalArgumentException();
         this.a = a;
     }
