@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Solution {
     public boolean isHappy(int n) {
         HashSet<Integer> cache = new HashSet<>();
-        while (cache.add(n) && n != 1) n = sum(n);
+        while (n != 1 && cache.add(n)) n = sum(n);
         return n == 1;
     }
 
