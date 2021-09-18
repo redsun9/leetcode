@@ -4,100 +4,75 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 @SuppressWarnings("ConstantConditions")
 public class Festival {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
-        int numberOfTests = Integer.parseInt(scanner.nextLine());
+        int numberOfTests = parseInt(scanner.nextLine());
         for (int testIndex = 1; testIndex <= numberOfTests; ++testIndex) {
             String[] parts = scanner.nextLine().split(" ");
-            int d = Integer.parseInt(parts[0]);
-            int n = Integer.parseInt(parts[1]);
-            int k = Integer.parseInt(parts[2]);
+            int d = parseInt(parts[0]);
+            int n = parseInt(parts[1]);
+            int k = parseInt(parts[2]);
 
-            List<Triple> triples = new ArrayList<>(n);
+            int[][] attrs = new int[n][];
 
 
             for (int i = 0; i < n; i++) {
                 parts = scanner.nextLine().split(" ");
-                Triple triple = new Triple(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), i);
-                triples.add(triple);
+                attrs[i] = new int[]{parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]), i};
             }
 
-            System.out.println("Case #" + testIndex + ": " + solve(triples, k));
+            System.out.println("Case #" + testIndex + ": " + solve(attrs, k));
         }
     }
 
-    static long solve(Collection<Triple> triples, int k) {
-        PriorityQueue<Triple> startQueue = new PriorityQueue<>(Comparator.<Triple>comparingInt(x -> x.s).thenComparingInt(x -> x.index));
-        PriorityQueue<Triple> endQueue = new PriorityQueue<>(Comparator.<Triple>comparingInt(x -> x.e).thenComparingInt(x -> x.index));
-        TreeSet<Triple> availableQueue = new TreeSet<>(Comparator.<Triple>comparingInt(x -> -x.h).thenComparingInt(x -> x.index));
-        TreeSet<Triple> topQueue = new TreeSet<>(Comparator.<Triple>comparingInt(x -> x.h).thenComparingInt(x -> x.index));
+    static long solve(int[][] attrs, int k) {
+        PriorityQueue<int[]> startQueue = new PriorityQueue<>(Comparator.comparingInt(x -> x[1]));
+        PriorityQueue<int[]> endQueue = new PriorityQueue<>(Comparator.comparingInt(x -> x[2]));
+        TreeSet<int[]> availableQueue = new TreeSet<>(Comparator.<int[]>comparingInt(x -> -x[0]).thenComparingInt(x -> x[3]));
+        TreeSet<int[]> topQueue = new TreeSet<>(Comparator.<int[]>comparingInt(x -> x[0]).thenComparingInt(x -> x[3]));
 
-        startQueue.addAll(triples);
-        endQueue.addAll(triples);
+        Collections.addAll(startQueue, attrs);
+        Collections.addAll(endQueue, attrs);
 
         long ans = 0;
         long currentSum = 0, currentK = 0;
 
         while (!startQueue.isEmpty()) {
-            int day = endQueue.peek().e;
-            while (!startQueue.isEmpty() && startQueue.peek().s <= day) availableQueue.add(startQueue.poll());
+            int day = endQueue.peek()[2];
+            while (!startQueue.isEmpty() && startQueue.peek()[1] <= day) availableQueue.add(startQueue.poll());
 
             while (!availableQueue.isEmpty() && currentK < k) {
-                Triple triple = availableQueue.pollFirst();
-                currentSum += triple.h;
+                int[] poll = availableQueue.pollFirst();
+                currentSum += poll[0];
                 currentK++;
-                topQueue.add(triple);
+                topQueue.add(poll);
             }
 
             if (!availableQueue.isEmpty() && !topQueue.isEmpty()) {
-                while (availableQueue.first().h > topQueue.first().h) {
-                    Triple poll = topQueue.pollFirst();
-                    currentSum -= poll.h;
+                while (availableQueue.first()[0] > topQueue.first()[0]) {
+                    int[] poll = topQueue.pollFirst();
+                    currentSum -= poll[0];
                     availableQueue.add(poll);
                     poll = availableQueue.pollFirst();
-                    currentSum += poll.h;
+                    currentSum += poll[0];
                     topQueue.add(poll);
                 }
             }
             ans = Math.max(ans, currentSum);
 
-            while (!endQueue.isEmpty() && endQueue.peek().e == day) {
-                Triple poll = endQueue.poll();
+            while (!endQueue.isEmpty() && endQueue.peek()[2] == day) {
+                int[] poll = endQueue.poll();
                 availableQueue.remove(poll);
                 if (topQueue.remove(poll)) {
-                    currentSum -= poll.h;
+                    currentSum -= poll[0];
                     currentK--;
                 }
             }
         }
         return ans;
     }
-
-
-    static class Triple {
-        final int h, s, e, index;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Triple triple = (Triple) o;
-            return index == triple.index;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(index);
-        }
-
-        Triple(int h, int s, int e, int index) {
-            this.h = h;
-            this.s = s;
-            this.e = e;
-            this.index = index;
-        }
-    }
-
 }
