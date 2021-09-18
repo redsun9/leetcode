@@ -1,11 +1,11 @@
-package codejam.reversort;
+package google.codejam.reversort;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static codejam.reverse_engineering.Solution.generateArray;
+import static google.codejam.reverse_engineering.Solution.generateArray;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

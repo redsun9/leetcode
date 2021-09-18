@@ -1,4 +1,4 @@
-package codejam.reversort;
+package google.codejam.reversort;
 
 import java.util.Scanner;
 

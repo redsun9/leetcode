@@ -1,4 +1,4 @@
-package codejam.moon_and_umbrellas;
+package google.codejam.moon_and_umbrellas;
 
 import java.util.Scanner;
 

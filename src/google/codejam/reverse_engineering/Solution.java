@@ -1,4 +1,4 @@
-package codejam.reverse_engineering;
+package google.codejam.reverse_engineering;
 
 import java.util.Scanner;
 
