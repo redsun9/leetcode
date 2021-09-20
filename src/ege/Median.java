@@ -7,8 +7,7 @@ public class Median {
 
     public static List<Double> solve(double[] arr) {
         int n = arr.length;
-        if (n == 0) throw new IllegalArgumentException("All x are solutions");
-        if (n == 1) return Collections.singletonList(arr[0]);
+        if (n == 0 || n == 1) throw new IllegalArgumentException("All x are solutions");
 
         Arrays.sort(arr);
         double sum = 0;
