@@ -114,4 +114,29 @@ class GeometryToolsTest {
         double[][] points = GeometryTools.lineCircleIntersection(0, 1, -7, 1, 1, 5);
         assertEquals(0, points.length);
     }
+
+    @Test
+    void twoCirclesIntersection1() {
+        double[][] points = GeometryTools.twoCirclesIntersection(1, 1, 5, 9, 1, 5);
+        assertEquals(2, points.length);
+        Arrays.sort(points, comparator);
+        assertEquals(5.0, points[0][0], 1e-6);
+        assertEquals(-2.0, points[0][1], 1e-6);
+        assertEquals(5.0, points[1][0], 1e-6);
+        assertEquals(4.0, points[1][1], 1e-6);
+    }
+
+    @Test
+    void twoCirclesIntersection2() {
+        double[][] points = GeometryTools.twoCirclesIntersection(1, 1, 5, 12, 1, 6);
+        assertEquals(1, points.length);
+        assertEquals(6.0, points[0][0], 1e-6);
+        assertEquals(1.0, points[0][1], 1e-6);
+    }
+
+    @Test
+    void twoCirclesIntersection3() {
+        assertEquals(0, GeometryTools.twoCirclesIntersection(1, 1, 5, 13, 1, 6).length);
+        assertEquals(0, GeometryTools.twoCirclesIntersection(1, 1, 20, 2, 2, 6).length);
+    }
 }

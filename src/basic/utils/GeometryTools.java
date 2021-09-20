@@ -137,24 +137,53 @@ public class GeometryTools {
         return new double[]{sumX / sum / 3.0, sumY / sum / 3.0};
     }
 
-    public static double[][] lineCircleIntersection(
-            double a, double b, double c,
-            double z0, double z1, double r
+    private static double[][] lineCircleIntersection(
+            double a, double b, double c, double r
     ) {
-        c += z0 * a + z1 * b;
         double x0 = -a * c / (a * a + b * b), y0 = -b * c / (a * a + b * b);
         double v = r * r * (a * a + b * b);
         if (c * c > v + EPS)
             return new double[0][];
         else if (Math.abs(c * c - v) < EPS) {
-            return new double[][]{{z0 + x0, z1 + y0}};
+            return new double[][]{{x0, y0}};
         } else {
             double d = r * r - c * c / (a * a + b * b);
             double mult = Math.sqrt(d / (a * a + b * b));
             return new double[][]{
-                    {z0 + x0 + b * mult, z1 + y0 - a * mult},
-                    {z0 + x0 - b * mult, z1 + y0 + a * mult}
+                    {x0 + b * mult, y0 - a * mult},
+                    {x0 - b * mult, y0 + a * mult}
             };
         }
+    }
+
+    public static double[][] lineCircleIntersection(
+            double a, double b, double c,
+            double z0, double z1, double r
+    ) {
+        c += z0 * a + z1 * b;
+        double[][] points = lineCircleIntersection(a, b, c, r);
+        for (double[] p : points) {
+            p[0] += z0;
+            p[1] += z1;
+        }
+        return points;
+    }
+
+    public static double[][] twoCirclesIntersection(
+            double x1, double y1, double r1,
+            double x2, double y2, double r2
+    ) {
+        x2 -= x1;
+        y2 -= y1;
+        double a = -2.0 * x2;
+        double b = -2.0 * y2;
+        double c = x2 * x2 + y2 * y2 + r1 * r1 - r2 * r2;
+
+        double[][] points = lineCircleIntersection(a, b, c, r1);
+        for (double[] p : points) {
+            p[0] += x1;
+            p[1] += y1;
+        }
+        return points;
     }
 }
