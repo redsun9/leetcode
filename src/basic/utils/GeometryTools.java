@@ -136,4 +136,25 @@ public class GeometryTools {
         }
         return new double[]{sumX / sum / 3.0, sumY / sum / 3.0};
     }
+
+    public static double[][] lineCircleIntersection(
+            double a, double b, double c,
+            double z0, double z1, double r
+    ) {
+        c += z0 * a + z1 * b;
+        double x0 = -a * c / (a * a + b * b), y0 = -b * c / (a * a + b * b);
+        double v = r * r * (a * a + b * b);
+        if (c * c > v + EPS)
+            return new double[0][];
+        else if (Math.abs(c * c - v) < EPS) {
+            return new double[][]{{z0 + x0, z1 + y0}};
+        } else {
+            double d = r * r - c * c / (a * a + b * b);
+            double mult = Math.sqrt(d / (a * a + b * b));
+            return new double[][]{
+                    {z0 + x0 + b * mult, z1 + y0 - a * mult},
+                    {z0 + x0 - b * mult, z1 + y0 + a * mult}
+            };
+        }
+    }
 }
