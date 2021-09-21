@@ -2,10 +2,12 @@ package basic.utils;
 
 import java.util.function.DoubleFunction;
 
+@SuppressWarnings("DuplicatedCode")
 public class MathTools {
-    private static double phi = (3 - Math.sqrt(5)) / 2;
-    private static double psi = (Math.sqrt(5) - 1) / 2;
+    private static final double phi = (3 - Math.sqrt(5)) / 2;
+    private static final double psi = (Math.sqrt(5) - 1) / 2;
 
+    // dichotomy
     public static double findRoot(DoubleFunction<Double> f, double l, double r) {
         boolean sign = f.apply(l) < 0;
         while (true) {
@@ -14,6 +16,20 @@ public class MathTools {
             if (f.apply(mid) <= 0 == sign) l = mid;
             else r = mid;
         }
+    }
+
+    //Newton method
+    public static double findRoot(
+            DoubleFunction<Double> f, DoubleFunction<Double> df,
+            double xn, double eps
+    ) {
+        double x1 = xn - f.apply(xn) / df.apply(xn);
+        double x0 = xn;
+        while (Math.abs(x0 - x1) > eps) {
+            x0 = x1;
+            x1 = x1 - f.apply(x1) / df.apply(x1);
+        }
+        return x1;
     }
 
     public static double findMinimum(DoubleFunction<Double> f, double a, double b) {

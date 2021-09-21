@@ -9,18 +9,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MathToolsTest {
 
     @Test
-    void findRootTest1() {
+    void dichotomyFindRootTest1() {
         DoubleFunction<Double> f = x -> x - Math.cos(x);
         double expected = 0.73908_51332_15160_64165;
         assertEquals(expected, MathTools.findRoot(f, 0, 1), 1e-15);
     }
 
     @Test
-    void findRootTest2() {
+    void dichotomyFindRootTest2() {
         DoubleFunction<Double> f = x -> x * x * x - x - 1;
         double expected = 1.32471_79572_44746_02596;
         assertEquals(expected, MathTools.findRoot(f, 0, 2), 1e-15);
     }
+
+    @Test
+    void newtonFindRootTest1() {
+        DoubleFunction<Double> f = x -> x - Math.cos(x);
+        DoubleFunction<Double> df = x -> 1 + Math.sin(x);
+        double expected = 0.73908_51332_15160_64165;
+        assertEquals(expected, MathTools.findRoot(f, df, 0, 1e-15), 1e-15);
+    }
+
+    @Test
+    void newtonFindRootTest2() {
+        DoubleFunction<Double> f = x -> x * x * x - x - 1;
+        DoubleFunction<Double> df = x -> 3 * x * x - 1;
+        double expected = 1.32471_79572_44746_02596;
+        assertEquals(expected, MathTools.findRoot(f, df, 0, 1e-15), 1e-15);
+    }
+
 
     @Test
     void findMinimumTest1() {
