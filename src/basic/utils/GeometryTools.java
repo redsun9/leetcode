@@ -1,5 +1,10 @@
 package basic.utils;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class GeometryTools {
     private static final double EPS = 1e-18;
 
@@ -185,5 +190,60 @@ public class GeometryTools {
             p[1] += y1;
         }
         return points;
+    }
+
+    private static void tangentLinesForTwoCircles(
+            double x, double y, double r1, double r2, List<double[]> ans
+    ) {
+        double r = r2 - r1;
+        double z = x * x + y * y;
+        double d = z - r * r;
+        if (d < -EPS) return;
+        d = Math.sqrt(Math.abs(d));
+        double[] line = {(x * r + y * d) / z, (y * r - x * d) / z, r1};
+        ans.add(line);
+    }
+
+    public static List<double[]> tangentLinesForTwoCircles(
+            double x1, double y1, double r1,
+            double x2, double y2, double r2
+    ) {
+        List<double[]> ans = new ArrayList<>();
+        for (int i = -1; i <= 1; i += 2) {
+            for (int j = -1; j <= 1; j += 2) {
+                tangentLinesForTwoCircles(x2 - x1, y2 - y1, r1 * i, r2 * j, ans);
+            }
+        }
+
+        for (double[] line : ans) {
+            if (line[2] < 0) {
+                line[0] = -line[0];
+                line[1] = -line[1];
+                line[2] = -line[2];
+            } else if (line[2] == 0 && line[0] < 0) {
+                line[0] = -line[0];
+                line[1] = -line[1];
+            } else if (line[2] == 0 && line[0] == 0 && line[1] < 0) {
+                line[1] = -line[1];
+            }
+        }
+
+        if (ans.size() >= 2) {
+            ans.sort(Comparator.comparingDouble((double[] p) -> p[0])
+                    .thenComparingDouble(p -> p[1])
+                    .thenComparingDouble(p -> p[2])
+            );
+            double[] prev = ans.get(0), curr;
+            ListIterator<double[]> iterator = ans.listIterator(1);
+            while (iterator.hasNext()) {
+                curr = iterator.next();
+                boolean same = true;
+                for (int i = 0; same && i < 3; i++) same = Math.abs(curr[i] - prev[i]) < EPS;
+                if (same) iterator.remove();
+                else prev = curr;
+            }
+        }
+        for (double[] line : ans) line[2] -= line[0] * x1 + line[1] * y1;
+        return ans;
     }
 }

@@ -4,15 +4,20 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import static basic.utils.GeometryTools.triangleArea;
 import static java.util.Comparator.comparingDouble;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GeometryToolsTest {
-    private static final Comparator<double[]> comparator =
+    private static final Comparator<double[]> comparatorPoint =
             comparingDouble((double[] p) -> p[0])
                     .thenComparingDouble(p -> p[1]);
+    private static final Comparator<double[]> comparatorLine =
+            comparingDouble((double[] p) -> p[0])
+                    .thenComparingDouble(p -> p[1])
+                    .thenComparingDouble(p -> p[2]);
 
     @Test
     void testTriangleArea() {
@@ -93,7 +98,7 @@ class GeometryToolsTest {
     void lineCircleIntersection1() {
         double[][] points = GeometryTools.lineCircleIntersection(0, 1, -5, 1, 1, 5);
         assertEquals(2, points.length);
-        Arrays.sort(points, comparator);
+        Arrays.sort(points, comparatorPoint);
 
         assertEquals(-2.0, points[0][0], 1e-6);
         assertEquals(5.0, points[0][1], 1e-6);
@@ -119,7 +124,7 @@ class GeometryToolsTest {
     void twoCirclesIntersection1() {
         double[][] points = GeometryTools.twoCirclesIntersection(1, 1, 5, 9, 1, 5);
         assertEquals(2, points.length);
-        Arrays.sort(points, comparator);
+        Arrays.sort(points, comparatorPoint);
         assertEquals(5.0, points[0][0], 1e-6);
         assertEquals(-2.0, points[0][1], 1e-6);
         assertEquals(5.0, points[1][0], 1e-6);
@@ -138,5 +143,56 @@ class GeometryToolsTest {
     void twoCirclesIntersection3() {
         assertEquals(0, GeometryTools.twoCirclesIntersection(1, 1, 5, 13, 1, 6).length);
         assertEquals(0, GeometryTools.twoCirclesIntersection(1, 1, 20, 2, 2, 6).length);
+    }
+
+    @Test
+    void tangentLinesForTwoCircles1() {
+        List<double[]> lines = GeometryTools.tangentLinesForTwoCircles(1, 1, 5, 9, 1, 5);
+        assertEquals(2, lines.size());
+
+        lines.sort(comparatorLine);
+
+        assertEquals(0.0, lines.get(0)[0], 1e-6);
+        assertEquals(1.0, lines.get(0)[1], 1e-6);
+        assertEquals(4.0, lines.get(0)[2], 1e-6);
+
+        assertEquals(0.0, lines.get(1)[0], 1e-6);
+        assertEquals(-1.0, lines.get(1)[1], 1e-6);
+        assertEquals(6.0, lines.get(1)[2], 1e-6);
+    }
+
+    @Test
+    void tangentLinesForTwoCircles2() {
+        List<double[]> lines = GeometryTools.tangentLinesForTwoCircles(1, 1, 5, 11, 1, 5);
+        assertEquals(3, lines.size());
+
+        lines.sort(comparatorLine);
+
+        assertEquals(-1.0, lines.get(0)[0], 1e-6);
+        assertEquals(0.0, lines.get(0)[1], 1e-6);
+        assertEquals(6.0, lines.get(0)[2], 1e-6);
+
+        assertEquals(0.0, lines.get(1)[0], 1e-6);
+        assertEquals(1.0, lines.get(1)[1], 1e-6);
+        assertEquals(4.0, lines.get(1)[2], 1e-6);
+
+        assertEquals(0.0, lines.get(2)[0], 1e-6);
+        assertEquals(-1.0, lines.get(2)[1], 1e-6);
+        assertEquals(6.0, lines.get(2)[2], 1e-6);
+    }
+
+    @Test
+    void tangentLinesForTwoCircles3() {
+        List<double[]> lines = GeometryTools.tangentLinesForTwoCircles(1, 1, 5, 2, 3, 2);
+        assertEquals(0, lines.size());
+    }
+
+    @Test
+    void tangentLinesForTwoCircles4() {
+        List<double[]> lines = GeometryTools.tangentLinesForTwoCircles(1, 1, 5, 2, 1, 4);
+        assertEquals(1, lines.size());
+        assertEquals(-1.0, lines.get(0)[0], 1e-6);
+        assertEquals(0.0, lines.get(0)[1], 1e-6);
+        assertEquals(6.0, lines.get(0)[2], 1e-6);
     }
 }
