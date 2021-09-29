@@ -1,4 +1,4 @@
-package ege;
+package help_requests.ege;
 
 import java.util.PriorityQueue;
 import java.util.Scanner;

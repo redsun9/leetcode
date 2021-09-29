@@ -1,4 +1,4 @@
-package ege.rabin_karp;
+package help_requests.rabin_karp;
 
 import antihash.AntiRollingHash;
 import org.junit.jupiter.api.Test;

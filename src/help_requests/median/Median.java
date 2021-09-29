@@ -1,4 +1,4 @@
-package ege;
+package help_requests.median;
 
 import java.util.*;
 

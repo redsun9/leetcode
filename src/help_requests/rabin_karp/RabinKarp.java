@@ -1,4 +1,4 @@
-package ege.rabin_karp;
+package help_requests.rabin_karp;
 
 public class RabinKarp {
 
