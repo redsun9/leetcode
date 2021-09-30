@@ -1,4 +1,4 @@
-package yandex;
+package yandex.dsa;
 
 import java.io.FileReader;
 import java.io.FileWriter;

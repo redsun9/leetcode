@@ -1,4 +1,4 @@
-package yandex;
+package yandex.dsa;
 
 public class LightWarrior {
     public int minimumNumberOfHits(int[] goblins, int p, int q) {

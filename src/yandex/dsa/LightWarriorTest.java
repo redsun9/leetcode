@@ -1,4 +1,4 @@
-package yandex;
+package yandex.dsa;
 
 import org.junit.jupiter.api.Test;
 
