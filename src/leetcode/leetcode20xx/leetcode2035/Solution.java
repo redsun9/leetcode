@@ -6,7 +6,6 @@ public class Solution {
     public int minimumDifference(int[] nums) {
         int n = nums.length;
         if (n == 2) return Math.abs(nums[1] - nums[0]);
-        Arrays.sort(nums);
         int[][] lists1 = generate(Arrays.copyOfRange(nums, 0, n / 2));
         int[][] lists2 = generate(Arrays.copyOfRange(nums, n / 2, n));
         int ans = Integer.MAX_VALUE;
@@ -26,23 +25,28 @@ public class Solution {
 
     private static int[][] generate(int[] nums) {
         int n = nums.length;
+        int ansSize = 1 << n;
+
         int total = 0;
         for (int num : nums) total += num;
+
+        for (int i = 0; i < n; i++) nums[i] <<= 1;
+        int[] sums = new int[ansSize];
+        sums[0] -= total;
+        for (int i = 0, maxTo = 1; i < n; i++, maxTo <<= 1) {
+            int num = nums[i];
+            for (int from = 0, to = maxTo; from < maxTo; from++, to++) sums[to] = sums[from] + num;
+        }
+
         int[][] ans = new int[n + 1][];
         int[] pos = new int[n + 1];
         for (int i = 0, binomial = 1; i <= n; i++) {
             ans[i] = new int[binomial];
             binomial = binomial * (n - i) / (i + 1);
         }
-        int maxValue = 1 << n;
-        for (int key = 0; key < maxValue; key++) {
-            int sum1 = 0;
-            for (int i = 0; i < n; i++) {
-                if ((key >> i & 1) == 1) sum1 += nums[i];
-            }
-            int sum2 = total - sum1;
+        for (int key = 0; key < ansSize; key++) {
             int bits = Integer.bitCount(key);
-            ans[bits][pos[bits]++] = sum1 - sum2;
+            ans[bits][pos[bits]++] = sums[key];
         }
         for (int[] arr : ans) Arrays.sort(arr);
         return ans;
