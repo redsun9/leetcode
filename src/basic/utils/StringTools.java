@@ -123,4 +123,27 @@ public class StringTools {
         }
         return new String(ans);
     }
+
+
+    public static int[][] longestCommonPrefixes(String s) {
+        int n = s.length();
+        int[][] lcp = new int[n][n + 1]; // cp[i][j] - length of common prefix, i>j
+        for (int d = 1; d < n; d++) {
+            for (int j = n - 1, i = j - d; i >= 0; i--, j--) {
+                if (s.charAt(i) == s.charAt(j)) lcp[i][j] = lcp[i + 1][j + 1] + 1;
+            }
+        }
+        return lcp;
+    }
+
+    public static int[][] longestRepeatingPrefixes(int[][] lcp) {
+        int n = lcp.length;
+        int[][] lrs = new int[n + 1][n + 1]; // lrs[i][j] - how many times a[i:j] repeats
+        for (int d = 1; d <= n / 2; d++) {
+            for (int l3 = n, l2 = n - d, l1 = n - 2 * d; l1 >= 0; l3--, l2--, l1--) {
+                if (lcp[l1][l2] >= d) lrs[l1][l2] = lrs[l2][l3] + 1;
+            }
+        }
+        return lrs;
+    }
 }
