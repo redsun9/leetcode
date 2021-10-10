@@ -72,7 +72,7 @@ public class StressTester {
             Function<T, S> actualFunction,
             int maxNumberOfTests
     ) throws InterruptedException {
-        return exactStressTest(generator, expectedFunction, actualFunction, maxNumberOfTests, 1, 0);
+        return exactStressTest(generator, expectedFunction, actualFunction, maxNumberOfTests, 1);
     }
 
     //find one failed test
@@ -81,7 +81,7 @@ public class StressTester {
             Function<T, S> expectedFunction,
             Function<T, S> actualFunction
     ) throws InterruptedException {
-        return exactStressTest(generator, expectedFunction, actualFunction, Integer.MAX_VALUE, 1, 0);
+        return exactStressTest(generator, expectedFunction, actualFunction, Integer.MAX_VALUE);
     }
 
     public static <T, S> boolean constructionStressTest(
@@ -133,9 +133,18 @@ public class StressTester {
     public static <T, S> boolean constructionStressTest(
             Function<Long, T> generator,
             Function<T, S> actualFunction,
+            BiPredicate<T, S> validator,
+            int maxNumberOfTests
+    ) throws InterruptedException {
+        return constructionStressTest(generator, actualFunction, validator, maxNumberOfTests, 1);
+    }
+
+    public static <T, S> boolean constructionStressTest(
+            Function<Long, T> generator,
+            Function<T, S> actualFunction,
             BiPredicate<T, S> validator
     ) throws InterruptedException {
-        return constructionStressTest(generator, actualFunction, validator, Integer.MAX_VALUE, 1, 0);
+        return constructionStressTest(generator, actualFunction, validator, Integer.MAX_VALUE);
     }
 
     private static List<Long> stressTest(

@@ -4,7 +4,7 @@ import java.util.AbstractList;
 import java.util.List;
 
 public class Solution2 {
-    public List<List<Integer>> permute(int[] nums) {
+    public static List<List<Integer>> permute(int[] nums) {
         return new MyListList(nums);
     }
 
