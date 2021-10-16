@@ -1,0 +1,14 @@
+<customers>
+    <customer id="111">
+        <name>Adam</name>
+        <age>12</age>
+    </customer>
+    <customer id="222">
+        <name>Eva</name>
+        <age>23</age>
+    </customer>
+    <customer id="333">
+        <name>Alex</name>
+        <age>123</age>
+    </customer>
+</customers>
