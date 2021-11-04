@@ -113,7 +113,7 @@ public class PrimeTester3 implements PrimeTester {
             ++s;
             d >>= 1;
         }
-        long u = 1, v = p, u2m = 1, v2m = p, qm = q, qm2 = q * 2, qkd = q;
+        long u = 1, v = p, u2m = 1, v2m = p, qm = q, qm2 = q * 2L, qkd = q;
         for (int mask = 2; mask <= d; mask <<= 1) {
             u2m = (u2m * v2m) % n;
             v2m = (v2m * v2m) % n;

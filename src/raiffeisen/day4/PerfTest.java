@@ -1,5 +1,6 @@
 package raiffeisen.day4;
 
+import basic.PrimeNumbers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,8 @@ class PerfTest {
     PrimeTester[] primeTesters2 = {
             new PrimeTester2(),
             new PrimeTester3(),
-            new PrimeTester5(10)
+            new PrimeTester5(10),
+            PrimeNumbers::isPrime
     };
 
     @Test

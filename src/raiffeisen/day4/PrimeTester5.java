@@ -51,7 +51,6 @@ public class PrimeTester5 implements PrimeTester {
             r++;
             d >>= 1;
         }
-        //check 2 and 3 (it's enough for number below 10^6)
         for (int factor : factors) {
             if (!millerRabinRound(factor, d, n, r)) return false;
         }
