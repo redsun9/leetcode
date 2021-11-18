@@ -1,5 +1,6 @@
 package suggestions.nth_divisible_by_at_least_one;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import prng.XorShiftN;
 import stress.StressTester;
@@ -14,14 +15,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings({"ConstantConditions", "DuplicatedCode"})
 class SolutionTest {
-    private static final int[] primes = {2, 3, 5, 7, 11, 13, 17, 19};
-    private static final int[] nonPrimes = {4, 6, 8, 9, 10, 12, 14, 15};
-    private static final int[] only235 = {2, 3, 5, 4, 9, 25, 6, 10, 15, 30};
+    private static final int[] primes = {
+            2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41
+    };
+    private static final int[] nonPrimes = {
+            4, 6, 8, 9, 10, 12, 14, 15, 16, 18,
+            20, 21, 22, 24, 25, 26, 27, 28, 30
+    };
+    private static final int[] only235 = {
+            2, 3, 5, 4, 9, 25, 6, 10, 15, 30,
+            12, 20, 18, 45, 50, 75, 60, 90, 150, 900
+    };
 
     @Test
+    @Disabled
     void testPrimes() {
         XorShiftN random = new XorShiftN(1, primes.length);
-        int numberOfTests = 100;
+        int numberOfTests = 1000;
         int[] masks = new int[numberOfTests];
         for (int i = 0; i < numberOfTests; i++) masks[i] = random.nextInteger();
 
@@ -30,9 +40,10 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void testNonPrimes() {
         XorShiftN random = new XorShiftN(1, nonPrimes.length);
-        int numberOfTests = 100;
+        int numberOfTests = 1_000;
         int[] masks = new int[numberOfTests];
         for (int i = 0; i < numberOfTests; i++) masks[i] = random.nextInteger();
 
@@ -41,9 +52,10 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void test235() {
         XorShiftN random = new XorShiftN(1, only235.length);
-        int numberOfTests = 100;
+        int numberOfTests = 1_000;
         int[] masks = new int[numberOfTests];
         for (int i = 0; i < numberOfTests; i++) masks[i] = random.nextInteger();
 
@@ -52,6 +64,7 @@ class SolutionTest {
     }
 
     @Test
+    @Disabled
     void test2() throws InterruptedException {
         long minVal = 10_000_000L, maxVal = Long.MAX_VALUE, diff = maxVal - minVal + 1;
 
@@ -69,11 +82,12 @@ class SolutionTest {
                 },
                 x -> x.expected,
                 x -> Solution.nthLowestDivisibleNumber(x.arr, x.k),
-                10_000
+                100_000
         ));
     }
 
     @Test
+    @Disabled
     void test3() throws InterruptedException {
         long minVal = 10_000_000L, maxVal = Long.MAX_VALUE, diff = maxVal - minVal + 1;
         assertTrue(StressTester.exactStressTest(
@@ -101,7 +115,7 @@ class SolutionTest {
                 },
                 x -> x.expected,
                 x -> Solution.nthLowestDivisibleNumber(x.arr, x.k),
-                10_000
+                100_000
         ));
     }
 

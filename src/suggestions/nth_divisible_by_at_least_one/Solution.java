@@ -14,32 +14,48 @@ public class Solution {
         int n = arr.length;
         if (n == 1) return arr[0] * k;
 
+        Arrays.sort(arr);
         int totalVariants = 1 << n;
         long[] lcm = new long[totalVariants];
         lcm[0] = 1;
-        for (int bit = 0; bit < n; bit++) {
+
+        int divisorsToProcess = 0;
+        for (int bit = 0, maskForBit = 1; bit < n; bit++, maskForBit <<= 1) {
             long num = arr[bit];
             if (num == 1) return k;
-            int bitMask = 1 << bit;
-            for (int i = 0, j = bitMask; i < bitMask; i++, j++) {
-                lcm[j] = lcm(lcm[i], num);
+
+            boolean isDivisibleByOther = false;
+            for (int j = 0; j < bit; j++) {
+                if (num % arr[j] == 0) {
+                    isDivisibleByOther = true;
+                    break;
+                }
             }
+            if (isDivisibleByOther) continue;
+            for (int subMask = divisorsToProcess; ; subMask = (subMask - 1) & divisorsToProcess) {
+                lcm[subMask | maskForBit] = lcm(lcm[subMask], num);
+                if (subMask == 0) break;
+            }
+            divisorsToProcess |= maskForBit;
         }
+
 
         HashMap<Long, Integer> map = new HashMap<>();
         int divisorsToCheck = 0;
-        for (int i = 1; i < totalVariants; i++) {
-            if (lcm[i] == 0) continue;
-            if ((Integer.bitCount(i) & 1) == 1) {
-                int newVal = map.compute(lcm[i], (key, v) -> v == null ? 1 : v + 1);
+
+        for (int subMask = divisorsToProcess; subMask != 0; subMask = (subMask - 1) & divisorsToProcess) {
+            if (lcm[subMask] == 0) continue;
+            if ((Integer.bitCount(subMask) & 1) == 1) {
+                int newVal = map.compute(lcm[subMask], (key, v) -> v == null ? 1 : v + 1);
                 if (newVal == 0) divisorsToCheck--;
                 if (newVal == 1) divisorsToCheck++;
             } else {
-                int newVal = map.compute(lcm[i], (key, v) -> v == null ? -1 : v - 1);
+                int newVal = map.compute(lcm[subMask], (key, v) -> v == null ? -1 : v - 1);
                 if (newVal == 0) divisorsToCheck--;
                 if (newVal == -1) divisorsToCheck++;
             }
         }
+
         long[][] divisors = new long[divisorsToCheck][2];
         for (Map.Entry<Long, Integer> entry : map.entrySet()) {
             if (entry.getValue() == 0) continue;
