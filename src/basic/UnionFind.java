@@ -10,7 +10,7 @@ public class UnionFind {
         for (int i = 0; i < n; i++) p[i] = i;
     }
 
-    int find(int x) {
+    public int find(int x) {
         if (x == p[x]) return x;
         else {
             p[x] = find(p[x]);
@@ -18,7 +18,7 @@ public class UnionFind {
         }
     }
 
-    void union(int x, int y) {
+    public void union(int x, int y) {
         x = find(x);
         y = find(y);
         if (x == y) return;
