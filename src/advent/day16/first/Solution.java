@@ -37,17 +37,17 @@ public class Solution {
 
 
     private static void processPacket(byte[] arr, ResultOfParsing res) {
-        int packetVersion = nReadBit(arr, res.currentPosition, 3);
+        int version = nReadBit(arr, res.currentPosition, 3);
         res.currentPosition += 3;
 
-        res.ans += packetVersion;
+        res.ans += version;
 
-        int packetTypeId = nReadBit(arr, res.currentPosition, 3);
+        int typeId = nReadBit(arr, res.currentPosition, 3);
         res.currentPosition += 3;
 
-        System.out.println("\t".repeat(res.currentDepth) + "version - " + packetVersion + ", type - " + packetTypeId);
+        if (debug) System.out.println("\t".repeat(res.depth) + "version - " + version + ", type - " + typeId);
 
-        if (packetTypeId == 4) processLiteralPacket(arr, res);
+        if (typeId == 4) processLiteralPacket(arr, res);
         else processOperatorPacket(arr, res);
     }
 
@@ -61,19 +61,19 @@ public class Solution {
             int totalLength = nReadBit(arr, res.currentPosition, 15);
             res.currentPosition += 15;
             int end = res.currentPosition + totalLength;
-            System.out.println("\t".repeat(res.currentDepth) + "length - " + totalLength);
+            if (debug) System.out.println("\t".repeat(res.depth) + "length - " + totalLength);
 
-            res.currentDepth++;
+            res.depth++;
             while (res.currentPosition < end) processPacket(arr, res);
-            res.currentDepth--;
+            res.depth--;
         } else {
             int totalNumber = nReadBit(arr, res.currentPosition, 11);
             res.currentPosition += 11;
-            System.out.println("\t".repeat(res.currentDepth) + "totalNumber - " + totalNumber);
+            if (debug) System.out.println("\t".repeat(res.depth) + "totalNumber - " + totalNumber);
 
-            res.currentDepth++;
+            res.depth++;
             for (int i = 0; i < totalNumber; i++) processPacket(arr, res);
-            res.currentDepth--;
+            res.depth--;
         }
 
     }
@@ -103,6 +103,6 @@ public class Solution {
     private static class ResultOfParsing {
         long ans;
         int currentPosition;
-        int currentDepth;
+        int depth;
     }
 }

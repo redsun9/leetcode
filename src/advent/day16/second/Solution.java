@@ -51,16 +51,16 @@ public class Solution {
 
 
     private static long processPacket(byte[] arr, ResultOfParsing res) {
-        int packetVersion = nReadBit(arr, res.currentPosition, 3);
+        int version = nReadBit(arr, res.currentPosition, 3);
         res.currentPosition += 3;
 
-        int packetTypeId = nReadBit(arr, res.currentPosition, 3);
+        int typeId = nReadBit(arr, res.currentPosition, 3);
         res.currentPosition += 3;
 
-        System.out.println("\t".repeat(res.currentDepth) + "version - " + packetVersion + ", type - " + packetTypeId);
+        if (debug) System.out.println("\t".repeat(res.currentDepth) + "version - " + version + ", type - " + typeId);
 
-        if (packetTypeId == 4) return processLiteralPacket(arr, res);
-        else return processOperatorPacket(arr, res, functions.get(packetTypeId));
+        if (typeId == 4) return processLiteralPacket(arr, res);
+        else return processOperatorPacket(arr, res, functions.get(typeId));
     }
 
     private static long processOperatorPacket(
@@ -75,7 +75,7 @@ public class Solution {
             int totalLength = nReadBit(arr, res.currentPosition, 15);
             res.currentPosition += 15;
             int end = res.currentPosition + totalLength;
-            System.out.println("\t".repeat(res.currentDepth) + "length - " + totalLength);
+            if (debug) System.out.println("\t".repeat(res.currentDepth) + "length - " + totalLength);
 
             res.currentDepth++;
             while (res.currentPosition < end) list.add(processPacket(arr, res));
@@ -83,7 +83,7 @@ public class Solution {
         } else {
             int totalNumber = nReadBit(arr, res.currentPosition, 11);
             res.currentPosition += 11;
-            System.out.println("\t".repeat(res.currentDepth) + "totalNumber - " + totalNumber);
+            if (debug) System.out.println("\t".repeat(res.currentDepth) + "totalNumber - " + totalNumber);
 
             res.currentDepth++;
             for (int i = 0; i < totalNumber; i++) list.add(processPacket(arr, res));
@@ -103,7 +103,7 @@ public class Solution {
             val = val << 4 | a & 0b1111;
             if ((a & 0b10000) == 0) break;
         }
-        System.out.println("\t".repeat(res.currentDepth) + "val - " + val);
+        if (debug) System.out.println("\t".repeat(res.currentDepth) + "val - " + val);
         return val;
     }
 
