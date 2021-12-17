@@ -17,6 +17,7 @@ public class Solution {
                 FileOutputStream fos = new FileOutputStream("src/advent/day17/second/output.txt");
                 PrintStream printer = new PrintStream(fos)
         ) {
+            long start = System.currentTimeMillis();
             while (scanner.hasNextLine()) {
                 String[] s = scanner.nextLine().trim().split(" ");
                 int minX = Integer.parseInt(s[0]);
@@ -25,6 +26,8 @@ public class Solution {
                 int maxY = Integer.parseInt(s[3]);
                 printer.println(solve(minX, maxX, minY, maxY));
             }
+            long end = System.currentTimeMillis();
+            System.out.println(end - start);
         }
     }
 
@@ -34,29 +37,46 @@ public class Solution {
             int h2 = -2 * y;
             int powerOfTwo = ((h2 ^ (h2 - 1)) + 1) >> 1;
             h2 /= powerOfTwo;
-            System.out.println((-y) + " = " + powerOfTwo + " * " + h2);
 
-            for (int p1 = 1; p1 <= h2; p1++) {
-                if (h2 % p1 == 0) {
-                    int c1 = powerOfTwo * p1;
-                    int c2 = h2 / p1;
-                    int sum = Math.max(c1, c2), diff = Math.min(c1, c2);
-                    int a = (sum - diff - 1) / 2, b = (sum + diff - 1) / 2;
-                    check(a + b + 1, minX, maxX, a, set);
-                    check(b - a, minX, maxX, -a - 1, set);
-                }
+            for (int d1 = 1; d1 * d1 <= h2; d1 += 2) {
+                if (h2 % d1 != 0) continue;
+                int d2 = h2 / d1;
+
+                int p11 = powerOfTwo * d1;
+                int a1 = (Math.abs(p11 - d2) - 1) / 2, b1 = (p11 + d2 - 1) / 2;
+                check(a1 + b1 + 1, minX, maxX, a1, set);
+                check(b1 - a1, minX, maxX, -a1 - 1, set);
+
+
+                int p21 = powerOfTwo * d2;
+                int a2 = (Math.abs(p21 - d1) - 1) / 2, b2 = (p21 + d1 - 1) / 2;
+                check(a2 + b2 + 1, minX, maxX, a2, set);
+                check(b2 - a2, minX, maxX, -a2 - 1, set);
             }
         }
         return set.size();
     }
 
     private static void check(int t, int minX, int maxX, int vy, Set<Pair> set) {
-        for (int x = 0; x < 1000; x++) {
-            int s = x >= t ? t * (2 * x - t + 1) / 2 : x * (x + 1) / 2;
-            if (s >= minX && s <= maxX) set.add(new Pair(x, vy));
+        int minVx;
+        if (t * (t + 1) / 2 >= minX) {
+            minVx = (int) ((Math.sqrt(8 * minX + 1) - 1) / 2);
+            if (minVx * (minVx + 1) / 2 < minX) minVx++;
+        } else {
+            minVx = (2 * minX + t * t + t - 1) / (2 * t);
         }
+
+        int maxVx;
+        if (t * (t + 1) / 2 >= maxX) {
+            maxVx = (int) ((Math.sqrt(8 * maxX + 1) - 1) / 2) + 1;
+            if (maxVx * (maxVx + 1) / 2 > maxX) maxVx--;
+        } else {
+            maxVx = (2 * maxX + t * t - t) / (2 * t);
+        }
+
+        for (int vx = minVx; vx <= maxVx; vx++) set.add(new Pair(vx, vy));
     }
 
-    private record Pair(int x, int y) {
+    private record Pair(int vx, int vy) {
     }
 }
