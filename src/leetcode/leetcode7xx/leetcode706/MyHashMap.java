@@ -1,5 +1,9 @@
 package leetcode.leetcode7xx.leetcode706;
 
+// Array for every possible key
+// Space: O(num of possible keys)
+// Time: O(1)
+
 public class MyHashMap {
     private final Integer[] arr;
 

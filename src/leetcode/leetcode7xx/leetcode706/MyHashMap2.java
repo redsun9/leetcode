@@ -1,5 +1,6 @@
 package leetcode.leetcode7xx.leetcode706;
 
+// HashMap using collision resolution by chaining and resizing.
 public class MyHashMap2 {
     private static final int INIT_CAPACITY = 1 << 4;
     private static final float LOAD_FACTOR = 0.75f;
