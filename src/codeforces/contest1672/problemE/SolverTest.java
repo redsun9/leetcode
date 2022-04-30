@@ -1,5 +1,6 @@
 package codeforces.contest1672.problemE;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import stress.StressTester;
 
@@ -33,6 +34,7 @@ class SolverTest {
     }
 
     @Test
+    @Disabled
     void testRandom() throws InterruptedException {
         StressTester.exactStressTest(
                 seed -> {
