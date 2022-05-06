@@ -107,6 +107,20 @@ public class IntegerUtils {
         return a;
     }
 
+    // returns {gcd(a,b),x,y} which a*x+b*y = gcd(a,b)
+    public static void gcd(int a, int b, int[] res) {
+        if (a == 0) {
+            res[0] = b;
+            res[1] = 0;
+            res[2] = 1;
+            return;
+        }
+        gcd(b % a, a, res);
+        int c = res[2] - (b / a) * res[1];
+        res[2] = res[1];
+        res[1] = c;
+    }
+
     //least common multiplier
     public static int lcm(int a, int b) {
         return a / gcd(a, b) * b;
