@@ -5,9 +5,12 @@ public class Solution {
         int ans = 0;
         while (num != 0) {
             ans += num & 1;
-            ans++;
-            num >>= 1;
+            num &= ~1;
+            if (num != 0) {
+                ans++;
+                num >>= 1;
+            }
         }
-        return ans - 1;
+        return ans;
     }
 }
