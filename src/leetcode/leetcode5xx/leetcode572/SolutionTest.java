@@ -15,6 +15,8 @@ class SolutionTest {
         TreeNode tree = LeetcodeUtils.initializeTree(root);
         TreeNode subTree = LeetcodeUtils.initializeTree(subRoot);
         assertTrue(new Solution().isSubtree(tree, subTree));
+        assertTrue(new Solution2().isSubtree(tree, subTree));
+        assertTrue(new Solution3().isSubtree(tree, subTree));
     }
 
     @Test
@@ -23,5 +25,7 @@ class SolutionTest {
         TreeNode tree = LeetcodeUtils.initializeTree(root);
         TreeNode subTree = LeetcodeUtils.initializeTree(subRoot);
         assertFalse(new Solution().isSubtree(tree, subTree));
+        assertFalse(new Solution2().isSubtree(tree, subTree));
+        assertFalse(new Solution3().isSubtree(tree, subTree));
     }
 }
