@@ -10,17 +10,18 @@ public class Solution {
         for (int a : target) {
             if (a <= 0) return false;
             s += a;
-            pq.add(a);
+            if (a != 1) pq.add(a);
         }
-        while (pq.peek() != 1) {
+        while (!pq.isEmpty()) {
             int poll = pq.poll();
-            if (2 * poll - s < 1) return false;
+            if (2L * poll - s < 1) return false;
             s -= poll;
             if (s <= 0) return false;
             if (s == 1) return true;
-            int a = poll % (int) s;
-            pq.add(a);
-            s += a;
+            poll = poll % (int) s;
+            if (poll == 0) return false;
+            if (poll != 1) pq.add(poll);
+            s += poll;
         }
         return true;
     }
