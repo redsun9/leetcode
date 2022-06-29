@@ -2,45 +2,38 @@ package leetcode.leetcode15xx.leetcode1514;
 
 import java.util.*;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked"})
 public class Solution {
     public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
         if (start == end) return 1;
-        List<Pair>[] neighbours = new List[n];
-        for (int i = 0; i < n; i++) neighbours[i] = new LinkedList<>();
+        List<Pair>[] adj = new List[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
         for (int i = 0; i < edges.length; i++) {
             int[] edge = edges[i];
-            neighbours[edge[0]].add(new Pair(edge[1], succProb[i]));
-            neighbours[edge[1]].add(new Pair(edge[0], succProb[i]));
+            adj[edge[0]].add(new Pair(edge[1], succProb[i]));
+            adj[edge[1]].add(new Pair(edge[0], succProb[i]));
         }
-        if (neighbours[end].isEmpty()) return 0;
-        double[] probs = new double[n];
-        probs[start] = 1;
-        Queue<Integer> pq = new PriorityQueue<>(Comparator.comparingDouble(ind -> -probs[ind]));
-        pq.offer(start);
+        if (adj[end].isEmpty() || adj[start].isEmpty()) return 0;
+        double[] p = new double[n];
+        p[start] = 1;
+        Queue<Pair> pq = new PriorityQueue<>(Comparator.comparingDouble(dest -> -dest.prob));
+        pq.offer(new Pair(start, 1));
         while (!pq.isEmpty()) {
-            Integer poll = pq.poll();
-            if (poll == end) return probs[end];
-            double currVal = probs[poll];
-            for (Pair pair : neighbours[poll]) {
-                double nextVal = currVal * pair.prob;
-                if (nextVal > probs[pair.dest]) {
-                    if (probs[pair.dest] != 0) pq.remove(pair.dest);
-                    probs[pair.dest] = nextVal;
-                    pq.offer(pair.dest);
+            Pair poll = pq.poll();
+            if (poll.idx == end) return p[end];
+            double currVal = poll.prob;
+            if (currVal != p[poll.idx]) continue;
+            for (Pair road : adj[poll.idx]) {
+                double nextVal = currVal * road.prob;
+                if (nextVal > p[road.idx]) {
+                    p[road.idx] = nextVal;
+                    pq.offer(new Pair(road.idx, nextVal));
                 }
             }
         }
-        return probs[end];
+        return p[end];
     }
 
-    private static class Pair {
-        private final int dest;
-        private final double prob;
-
-        public Pair(int dest, double prob) {
-            this.dest = dest;
-            this.prob = prob;
-        }
+    private record Pair(int idx, double prob) {
     }
 }
