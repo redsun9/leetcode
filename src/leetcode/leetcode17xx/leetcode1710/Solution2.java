@@ -3,6 +3,7 @@ package leetcode.leetcode17xx.leetcode1710;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+// Take from pq until enough
 public class Solution2 {
     @SuppressWarnings("ConstantConditions")
     public int maximumUnits(int[][] boxTypes, int truckSize) {
