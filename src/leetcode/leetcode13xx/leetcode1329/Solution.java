@@ -2,7 +2,7 @@ package leetcode.leetcode13xx.leetcode1329;
 
 import java.util.PriorityQueue;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "DuplicatedCode", "unchecked"})
 public class Solution {
     public int[][] diagonalSort(int[][] mat) {
         int m = mat.length, n = mat[0].length;
