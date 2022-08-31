@@ -2,12 +2,15 @@ package help_requests.colour_fill;
 
 // DFS solution
 // O(m*n) - time, O(m*n) - space
+// Very bad solution
+// Can cause stackoverflow exception
 public class Solution {
     public static int numberOfFills(int[][] mat) {
         int ans = 0, m = mat.length, n = mat[0].length;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (mat[i][j] != 0) {
+                    ans++;
                     dfs(mat, i, j, m, n, mat[i][j]);
                 }
             }
