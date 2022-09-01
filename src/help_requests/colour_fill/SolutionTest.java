@@ -13,6 +13,7 @@ class SolutionTest {
     void test1() {
         int[][] mat = {{1, 1, 4}, {2, 1, 5}, {3, 2, 2}};
         assertEquals(6, Solution4.numberOfFills(mat));
+        assertEquals(6, Solution5.numberOfFills(mat));
         assertEquals(6, Solution.numberOfFills(mat));
 
     }
@@ -39,7 +40,7 @@ class SolutionTest {
 
 
     @Test
-    void stressTest() throws InterruptedException {
+    void stressTest4() throws InterruptedException {
         int n = 10, k = 5;
         StressTester.exactStressTest(
                 seed -> {
@@ -54,6 +55,26 @@ class SolutionTest {
                     return Solution3.numberOfFills(arr);
                 },
                 Solution4::numberOfFills,
+                1_000_000
+        );
+    }
+
+    @Test
+    void stressTest5() throws InterruptedException {
+        int n = 10, k = 5;
+        StressTester.exactStressTest(
+                seed -> {
+                    int[][] mat = new int[n][n];
+                    Random random = new Random(seed);
+                    for (int[] row : mat) for (int i = 0; i < n; i++) row[i] = 1 + random.nextInt(k);
+                    return mat;
+                },
+                mat -> {
+                    int[][] arr = new int[n][];
+                    for (int i = 0; i < n; i++) arr[i] = Arrays.copyOf(mat[i], n);
+                    return Solution3.numberOfFills(arr);
+                },
+                Solution5::numberOfFills,
                 1_000_000
         );
     }
