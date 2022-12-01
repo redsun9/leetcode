@@ -1,0 +1,96 @@
+package advent.year2021.day12.first;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+@SuppressWarnings({"DuplicatedCode"})
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        try (
+                FileInputStream fis = new FileInputStream("src/advent/year2021/day12/first/input.txt");
+                Scanner scanner = new Scanner(fis);
+                FileOutputStream fos = new FileOutputStream("src/advent/year2021/day12/first/output.txt");
+                PrintStream printer = new PrintStream(fos)
+        ) {
+            HashMap<String, Integer> nameMap = new HashMap<>();
+            List<Cave> caves = new ArrayList<>();
+
+            List<List<Integer>> adj = new ArrayList<>();
+            int numberOfCaves = 0;
+            int numberOfSmallCaves = 0;
+
+            while (scanner.hasNextLine()) {
+                String[] parts = scanner.nextLine().trim().split("-");
+                Integer u = nameMap.get(parts[0]);
+                if (u == null) {
+                    u = numberOfCaves++;
+                    adj.add(new ArrayList<>());
+                    nameMap.put(parts[0], u);
+                    boolean isSmall = Character.isLowerCase(parts[0].charAt(0));
+                    caves.add(new Cave(isSmall, numberOfSmallCaves));
+                    if (isSmall) numberOfSmallCaves++;
+                }
+                Integer v = nameMap.get(parts[1]);
+                if (v == null) {
+                    v = numberOfCaves++;
+                    adj.add(new ArrayList<>());
+                    nameMap.put(parts[1], v);
+                    boolean isSmall = Character.isLowerCase(parts[1].charAt(0));
+                    caves.add(new Cave(isSmall, numberOfSmallCaves));
+                    if (isSmall) numberOfSmallCaves++;
+                }
+
+                adj.get(u).add(v);
+                adj.get(v).add(u);
+            }
+
+            long[] cache = new long[numberOfCaves << numberOfSmallCaves];
+
+
+            int start = nameMap.get("start"), end = nameMap.get("end");
+            int maskForSmallCaves = (1 << numberOfSmallCaves) - 1;
+            int startKey = start << numberOfSmallCaves | maskForSmallCaves;
+            long ans = dfs(start, startKey, end, numberOfSmallCaves, maskForSmallCaves, adj, caves, cache);
+
+            printer.println(ans);
+        }
+    }
+
+
+    private static long dfs(
+            int u, int key, int targetCave,
+            int numberOfSmallCaves, int maskForSmallCaves,
+            List<List<Integer>> adj, List<Cave> caves, long[] cache
+    ) {
+        if (u == targetCave) return 1;
+        if (cache[key] == 0) {
+            long tmp = 1;
+            int fromKey = key & maskForSmallCaves;
+            if (caves.get(u).isSmall) fromKey &= ~(1 << caves.get(u).smallCaveIdx);
+            for (Integer v : adj.get(u)) {
+                if (!caves.get(v).isSmall || (key >>> caves.get(v).smallCaveIdx & 1) != 0) {
+                    tmp += dfs(v, fromKey | v << numberOfSmallCaves, targetCave, numberOfSmallCaves, maskForSmallCaves, adj, caves, cache);
+                }
+            }
+            cache[key] = tmp;
+        }
+        return cache[key] - 1;
+    }
+
+
+    private static class Cave {
+        private final boolean isSmall;
+        private final int smallCaveIdx;
+
+        public Cave(boolean isSmall, int smallCaveIdx) {
+            this.isSmall = isSmall;
+            this.smallCaveIdx = smallCaveIdx;
+        }
+    }
+}
