@@ -3,7 +3,6 @@ package help_requests.snowflakes;
 import java.util.HashSet;
 import java.util.Set;
 
-
 // n - snowflakes, k = angles
 // O(n) - space, O(n * k^2) - time
 public class Solution2 {
