@@ -1,5 +1,7 @@
 package basic.matrix;
 
+import basic.utils.IntegerUtils;
+
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 import java.util.stream.IntStream;
@@ -310,5 +312,42 @@ public class MatrixTools {
 
             return collectMatrix(c11, c12, c21, c22, n);
         }
+    }
+
+    // Warning! mutates x,y
+    public static int[] solve(int[][] x, int[] y, int p) {
+        int n = x.length;
+        for (int i = 0; i < n; i++) {
+            int tmpI = i;
+            while (tmpI < n && x[tmpI][i] == 0) tmpI++;
+            int[] tmpArr = x[i];
+            x[i] = x[tmpI];
+            x[tmpI] = tmpArr;
+            int tmp = y[i];
+            y[i] = y[tmpI];
+            y[tmpI] = tmp;
+
+            long reversed = IntegerUtils.reverse(x[i][i], p);
+            for (int j = i; j < n; j++) x[i][j] = (int) (x[i][j] * reversed % p);
+            y[i] = (int) (y[i] * reversed % p);
+            for (int k = i + 1; k < n; k++) {
+                long multiplier = x[k][i];
+                for (int j = i; j < n; j++) {
+                    x[k][j] = (int) ((x[k][j] - x[i][j] * multiplier) % p);
+                    if (x[k][j] < 0) x[k][j] += p;
+                }
+                y[k] = (int) ((y[k] - y[i] * multiplier) % p);
+                if (y[k] < 0) y[k] += p;
+            }
+        }
+        for (int i = n - 1; i > 0; i--) {
+            for (int k = i - 1; k >= 0; k--) {
+                long multiplier = x[k][i];
+                x[k][i] = 0;
+                y[k] = (int) ((y[k] - y[i] * multiplier) % p);
+                if (y[k] < 0) y[k] += p;
+            }
+        }
+        return y;
     }
 }

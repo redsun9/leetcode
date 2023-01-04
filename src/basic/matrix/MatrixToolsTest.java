@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Objects;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MatrixToolsTest {
@@ -100,5 +101,14 @@ class MatrixToolsTest {
             System.gc();
             Thread.sleep(2000);
         }
+    }
+
+    @Test
+    void solve() {
+        int[][] x = {{1, 2}, {2, 1}};
+        int[] y = {3, 10};
+        int[] actual = MatrixTools.solve(x, y, 31);
+        int[] expected = {16, 9};
+        assertArrayEquals(expected, actual);
     }
 }
