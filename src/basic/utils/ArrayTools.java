@@ -219,7 +219,10 @@ public class ArrayTools {
     }
 
     public static void shuffle(int[] a) {
-        Random random = new Random();
+        shuffle(a, new Random());
+    }
+
+    public static void shuffle(int[] a, Random random) {
         for (int i = a.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
             int t = a[j];
@@ -250,5 +253,11 @@ public class ArrayTools {
         }
         Arrays.sort(arr);
         return arr;
+    }
+
+    public static int[] naturalArray(int n) {
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) ans[i] = i;
+        return ans;
     }
 }
