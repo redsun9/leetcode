@@ -1,4 +1,4 @@
-package tcs_algo_acourse;
+package tcs_algo_course;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
