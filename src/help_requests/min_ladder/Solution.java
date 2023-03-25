@@ -7,13 +7,13 @@ public class Solution {
     public static int minLadder(int[] heights, int k) {
         int n = heights.length;
         int ans = heights[k];
-        for (int i = k - 1, tmp = 0; i >= 0; i--) {
-            tmp = max(tmp, Math.abs(heights[i] - heights[i + 1]));
-            ans = min(ans, max(tmp, heights[i]));
+        for (int i = k - 1, maxDiff = 0; i >= 0; i--) {
+            maxDiff = max(maxDiff, Math.abs(heights[i] - heights[i + 1]));
+            ans = min(ans, max(maxDiff, heights[i]));
         }
-        for (int i = k + 1, tmp = 0; i < n; i++) {
-            tmp = max(tmp, Math.abs(heights[i] - heights[i - 1]));
-            ans = min(ans, max(tmp, heights[i]));
+        for (int i = k + 1, maxDiff = 0; i < n; i++) {
+            maxDiff = max(maxDiff, Math.abs(heights[i] - heights[i - 1]));
+            ans = min(ans, max(maxDiff, heights[i]));
         }
         return ans;
     }
@@ -35,6 +35,22 @@ public class Solution {
             }
             prev = height;
             i++;
+        }
+        return ans;
+    }
+
+    public static int[] minLadder(int[] heights) {
+        int n = heights.length;
+        int[] ans = new int[n];
+        for (int i = 0, prevAns = 0, prevHeight = 0; i < n; i++) {
+            ans[i] = min(heights[i], max(prevAns, Math.abs(heights[i] - prevHeight)));
+            prevAns = ans[i];
+            prevHeight = heights[i];
+        }
+        for (int i = n - 1, prevAns = 0, prevHeight = 0; i >= 0; i--) {
+            ans[i] = min(ans[i], min(heights[i], max(prevAns, Math.abs(heights[i] - prevHeight))));
+            prevAns = ans[i];
+            prevHeight = heights[i];
         }
         return ans;
     }
