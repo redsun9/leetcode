@@ -34,4 +34,22 @@ class IntegerUtilsTest {
             assertEquals(res[0], (long) a * res[1] + (long) b * res[2]);
         });
     }
+
+    @Test
+    void testKTO() {
+        int[] primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43};
+        int n = primes.length;
+        Random random = new Random(0);
+        BigInteger[] divisors = new BigInteger[n];
+        BigInteger[] remainders = new BigInteger[n];
+        for (int i = 0; i < n; i++) {
+            divisors[i] = BigInteger.valueOf(primes[i]);
+            remainders[i] = BigInteger.valueOf(random.nextInt(primes[i]));
+        }
+        BigInteger result = IntegerUtils.solveKTO(divisors, remainders);
+        System.out.println(result);
+        for (int i = 0; i < n; i++) {
+            assertEquals(remainders[i], result.mod(divisors[i]));
+        }
+    }
 }

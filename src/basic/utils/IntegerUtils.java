@@ -3,6 +3,7 @@ package basic.utils;
 import basic.matrix.MatrixTools;
 import basic.tuples.Pair;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -199,5 +200,21 @@ public class IntegerUtils {
         if (r > 1) return -1;
         if (t < 0) t += n;
         return t;
+    }
+
+    // solve Chinese Remainder theorem, find number which gives r[i] remainder for a[i] divisors
+    // all divisors are coprime
+    public static BigInteger solveKTO(BigInteger[] divisors, BigInteger[] remainders) {
+        int n = divisors.length;
+        BigInteger m = BigInteger.ONE;
+        for (BigInteger divisor : divisors) m = m.multiply(divisor);
+        BigInteger result = BigInteger.ZERO;
+        for (int i = 0; i < n; i++) {
+            BigInteger divisor = divisors[i];
+            BigInteger mi = m.divide(divisor);
+            BigInteger reversedMi = mi.modInverse(divisor);
+            result = result.add(remainders[i].multiply(reversedMi).multiply(mi)).mod(m);
+        }
+        return result;
     }
 }
