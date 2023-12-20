@@ -108,6 +108,16 @@ public class IntegerUtils {
         return a;
     }
 
+    public static long gcd(long a, long b) {
+        long c;
+        while (b != 0) {
+            c = a % b;
+            a = b;
+            b = c;
+        }
+        return a;
+    }
+
     // returns {gcd(a,b),x,y} which a*x+b*y = gcd(a,b)
     public static void gcd(int a, int b, int[] res) {
         if (a == 0) {
@@ -124,6 +134,10 @@ public class IntegerUtils {
 
     //least common multiplier
     public static int lcm(int a, int b) {
+        return a / gcd(a, b) * b;
+    }
+
+    public static long lcm(long a, long b) {
         return a / gcd(a, b) * b;
     }
 
