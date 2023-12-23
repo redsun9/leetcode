@@ -26,7 +26,7 @@ public class Solution {
                 PrintStream printer = new PrintStream(fos)
         ) {
             List<String> input = parseInput(scanner);
-//            checkInput(input);
+            checkInput(input);
             printer.println(solve(input));
         }
     }
@@ -103,25 +103,34 @@ public class Solution {
     private static long solveForQuarter(boolean[][] mat) {
         int[][] distancesFromStart = calculateDistances(mat);
         int maxDistance = 0;
-        for (int[] row : distancesFromStart) for (int val : row) if (val != MAX_VALUE) maxDistance = max(maxDistance, val);
+        for (int[] row : distancesFromStart)
+            for (int val : row) if (val != MAX_VALUE) maxDistance = max(maxDistance, val);
 
         int[] accCountForDistances = new int[maxDistance + 1];
         for (int[] row : distancesFromStart) for (int val : row) if (val != MAX_VALUE) accCountForDistances[val]++;
         for (int i = 2; i <= maxDistance; i++) accCountForDistances[i] += accCountForDistances[i - 2];
 
         long fullyInEvenTimes = (STEPS + 2) / (2 * N);
-        long fullyInEven = fullyInEvenTimes * fullyInEvenTimes * accCountForDistances[(maxDistance - 1) | 1];
+        long fullyInEven = fullyInEvenTimes * fullyInEvenTimes * accCountForDistances[maxFloorOdd(maxDistance)];
 
         long fullyInOddTimes = (STEPS + 2 - N) / (2 * N);
-        long fullyInOdd = fullyInOddTimes * (fullyInOddTimes + 1) * accCountForDistances[maxDistance & ~1];
+        long fullyInOdd = fullyInOddTimes * (fullyInOddTimes + 1) * accCountForDistances[maxFloorEven(maxDistance)];
 
         long partlyInEvenTimes = STEPS % (2 * N) == 2 * N - 2 || STEPS % (2 * N) == 2 * N - 1 ? 0 : (STEPS + 2 * N) / (2 * N);
-        long partlyInEven = partlyInEvenTimes * partlyInEvenTimes * accCountForDistances[STEPS % (2 * N)];
+        long partlyInEven = (2 * partlyInEvenTimes - 1) * accCountForDistances[maxFloorOdd(STEPS % (2 * N))];
 
         long partlyInOddTimes = STEPS % (2 * N) == N - 1 || STEPS % (2 * N) == N - 2 ? 0 : (STEPS + N) / (2 * N);
-        long partlyInOdd = partlyInOddTimes * (partlyInOddTimes + 1) * accCountForDistances[(STEPS + N) % (2 * N)];
+        long partlyInOdd = 2 * partlyInOddTimes * accCountForDistances[maxFloorEven((STEPS + N) % (2 * N))];
 
         return fullyInEven + fullyInOdd + partlyInEven + partlyInOdd;
+    }
+
+    private static int maxFloorOdd(int num) {
+        return num % 2 != 0 ? num : num - 1;
+    }
+
+    private static int maxFloorEven(int num) {
+        return num % 2 == 0 ? num : num - 1;
     }
 
     private static int[][] calculateDistances(boolean[][] mat) {
@@ -140,7 +149,8 @@ public class Solution {
                 int x0 = poll[0], y0 = poll[1];
                 for (int k = 0; k < 4; k++) {
                     int x1 = x0 + moves[k], y1 = y0 + moves[k + 1];
-                    if (x1 < 0 || y1 < 0 || x1 >= N || y1 >= N || distanceFromStart[x1][y1] != MAX_VALUE || mat[x1][y1]) continue;
+                    if (x1 < 0 || y1 < 0 || x1 >= N || y1 >= N || distanceFromStart[x1][y1] != MAX_VALUE || mat[x1][y1])
+                        continue;
                     distanceFromStart[x1][y1] = generation;
                     deque.offer(new int[]{x1, y1});
                 }
