@@ -1,4 +1,4 @@
-package advent.year2023.day23.first;
+package advent.year2023.day23.second;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,22 +6,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "ExtractMethodRecommender", "unchecked"})
 public class Solution {
     private static final int[] moves = {1, 0, -1, 0, 1};
-    private static final Map<Character, Integer> slopesMap = Map.of(
-            'v', 0,
-            '<', 1,
-            '^', 2,
-            '>', 3
-    );
 
     public static void main(String[] args) throws IOException {
         try (
 //                FileInputStream fis = new FileInputStream("src/advent/year2023/day23/example.txt");
                 FileInputStream fis = new FileInputStream("src/advent/year2023/day23/input.txt");
                 Scanner scanner = new Scanner(fis);
-                FileOutputStream fos = new FileOutputStream("src/advent/year2023/day23/first/output.txt");
+                FileOutputStream fos = new FileOutputStream("src/advent/year2023/day23/second/output.txt");
                 PrintStream printer = new PrintStream(fos)
         ) {
             List<String> input = parseInput(scanner);
@@ -114,7 +108,7 @@ public class Solution {
 
             for (Edge edge : adj[nodeResult.processingNode.pointIdx]) {
                 int v = edge.v;
-                if ((nodeResult.processingNode.visitedBitMap >> v & 1) != 0) continue;
+                if ((nodeResult.processingNode.visitedBitMap >> v & 1L) != 0) continue;
 
                 int d1 = nodeResult.distance + edge.d;
                 ProcessingNode pn1 = new ProcessingNode(v, nodeResult.processingNode.visitedBitMap | 1L << v);
@@ -145,18 +139,7 @@ public class Solution {
                 Integer toIdx = pointsIdxMap.get(new Point(i1, j1));
                 return new Edge(fromIdx, toIdx, distance);
             }
-            char c = input.get(i1).charAt(j1);
-            if (slopesMap.containsKey(c)) {
-                int k = slopesMap.get(c);
-                int i2 = i1 + moves[k], j2 = j1 + moves[k + 1];
-                if (i2 == i0 && j2 == j0) return null;
-                i0 = i1;
-                j0 = j1;
-                i1 = i2;
-                j1 = j2;
-                distance++;
-                continue;
-            }
+            boolean foundNext = false;
             for (int k = 0; k < 4; k++) {
                 int i2 = i1 + moves[k], j2 = j1 + moves[k + 1];
                 if (i2 < 0 || j2 < 0 || i2 >= m || j2 >= n || input.get(i2).charAt(j2) == '#') continue;
@@ -166,7 +149,10 @@ public class Solution {
                 i1 = i2;
                 j1 = j2;
                 distance++;
+                foundNext = true;
+                break;
             }
+            if (!foundNext) return null;
         }
     }
 
