@@ -10,20 +10,23 @@ fun main(args: Array<String>) {
     for (t in 0 until tests) {
         val n = nextInt()
         val k = nextInt()
-        val s = next()
-        println(if (solve(s, k)) "YES" else "NO")
+        val arr = nextInts(n)
+        println(solve(arr, k))
     }
 }
 
-fun solve(s: String, k: Int): Boolean {
-    val count = IntArray(26)
-    for (c in s) count[c - 'a']++
-    var oddCount = 0
-    for (c in count) if (c.and(1) == 1) oddCount++
-    return k + 1 >= oddCount
+fun solve(arr: IntArray, k: Int): Int = if (k in setOf(2, 3, 5)) solve235(arr, k) else solve4(arr)
+
+private fun solve235(arr: IntArray, k: Int): Int = arr.minOf { (k - it % k) % k }
+
+private fun solve4(arr: IntArray): Int {
+    if (arr.size == 1) return (4 - arr[0] % 4) % 4
+    if (arr.any { it % 4 == 0 } || arr.count { it % 2 == 0 } >= 2) return 0
+    if (arr.any { it % 2 == 0 } || arr.any { it % 4 == 3 }) return 1
+    else return 2
 }
 
-private class MyReader1(inputStream: InputStream) {
+internal class MyReader2(inputStream: InputStream) {
     private val reader = BufferedReader(InputStreamReader(inputStream))
     private var tokenizer: StringTokenizer? = null
 
@@ -40,7 +43,7 @@ private class MyReader1(inputStream: InputStream) {
     }
 }
 
-private val reader = MyReader1(System.`in`)
+private val reader = MyReader2(System.`in`)
 private fun next() = reader.next()
 private fun nextInt() = next().toInt()
 private fun nextLong() = next().toLong()
