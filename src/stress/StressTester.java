@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
@@ -157,7 +155,6 @@ public class StressTester {
 
         ExecutorService tpe = Executors.newWorkStealingPool();
         int total = 0, previousFinished = 0;
-        Lock lock = new ReentrantLock();
 
         AtomicInteger finished = new AtomicInteger(), failed = new AtomicInteger();
         Semaphore semaphore = new Semaphore(Runtime.getRuntime().availableProcessors() * 2);
@@ -168,12 +165,16 @@ public class StressTester {
             long seed = seedGenerator.getAsLong();
             Runnable runnable = () -> {
                 semaphore.release();
-                boolean test = seedValidator.test(seed);
-                if (!test) failedSeeds.offer(seed);
-                lock.lock();
-                if (!test) failed.incrementAndGet();
-                finished.incrementAndGet();
-                lock.unlock();
+                try {
+                    boolean test = seedValidator.test(seed);
+                    if (!test) failedSeeds.offer(seed);
+                    if (!test) failed.incrementAndGet();
+                } catch (Throwable throwable) {
+                    failedSeeds.offer(seed);
+                    failed.incrementAndGet();
+                } finally {
+                    finished.incrementAndGet();
+                }
             };
 
             semaphore.acquire();
@@ -182,10 +183,8 @@ public class StressTester {
             if (debugStep != 0) {
                 int nowFinished = finished.get();
                 if (nowFinished / debugStep > previousFinished / debugStep) {
-                    lock.lock();
                     System.out.printf("total = %d, failed = %d\n", finished.get(), failed.get());
                     previousFinished = nowFinished;
-                    lock.unlock();
                 }
             }
         }
@@ -201,10 +200,8 @@ public class StressTester {
 
         if (debugStep != 0 && total >= debugStep) System.out.println();
         if (failed.get() != 0) {
-            lock.lock();
             System.out.println("Assertion failed!");
             System.out.printf("total = %d, failed = %d\n", finished.get(), failed.get());
-            lock.unlock();
         }
         return failedSeeds.stream().toList();
     }
